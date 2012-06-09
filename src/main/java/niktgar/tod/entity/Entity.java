@@ -1,19 +1,27 @@
 package niktgar.tod.entity;
 
+import java.util.List;
+
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
+import niktgar.tod.sprite.Animation;
 import niktgar.tod.sprite.Sprite;
 
 public class Entity implements Collidable {
 
-    protected Sprite sprite;
+    protected Animation animation;
     protected Vector oldPosition;
     protected Vector position;
     protected Vector velocity;
 
     public Entity(Sprite sprite) {
-        this.sprite = sprite;
+        this.animation = new Animation(sprite);
+        initialize();
+    }
+    
+    public Entity(List<Sprite> sprites) {
+        this.animation = new Animation(sprites);
         initialize();
     }
 
@@ -22,7 +30,7 @@ public class Entity implements Collidable {
     }
 
     public void draw() {
-        sprite.draw(position.snappedX(), position.snappedY());
+        animation.draw(position.snappedX(), position.snappedY());
     }
 
     public void update(long delta) {
@@ -41,7 +49,7 @@ public class Entity implements Collidable {
 
     @Override
     public BoundingBox bound() {
-        return new BoundingBox(position.snappedX(), position.snappedY(), position.snappedX() + sprite.width(), position.snappedY() + sprite.height());
+        return new BoundingBox(position.snappedX(), position.snappedY(), position.snappedX() + animation.width(), position.snappedY() + animation.height());
     }
 
     public void collidedTop(Collidable collidable) {
@@ -58,5 +66,11 @@ public class Entity implements Collidable {
 
     public void collidedRight(Collidable collidable) {
 
+    }
+
+    @Override
+    public void collidedWith(Collidable collidable) {
+        // TODO Auto-generated method stub
+        
     }
 }

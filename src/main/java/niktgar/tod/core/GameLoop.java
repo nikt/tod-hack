@@ -15,6 +15,8 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import niktgar.tod.block.BlockLayer;
 import niktgar.tod.block.BlockMap;
@@ -79,8 +81,10 @@ public class GameLoop {
             glLoadIdentity();
             glViewport(0, 0, windowDimensions.width, windowDimensions.height);
 
-            playerSprite = spriteLoader.loadSprite("entities/angry_tree.png");
-            player = new PlayerEntity(playerSprite);
+            List<Sprite> sprites = new ArrayList<Sprite>();
+            sprites.add(spriteLoader.loadSprite("entities/angry_tree.png"));
+            sprites.add(spriteLoader.loadSprite("entities/angry_tree2.png"));
+            player = new PlayerEntity(sprites);
 
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
             elapsed = 0;
