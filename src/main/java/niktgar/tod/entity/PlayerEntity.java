@@ -5,25 +5,25 @@ import niktgar.tod.sprite.Sprite;
 
 import org.lwjgl.input.Keyboard;
 
-
 public class PlayerEntity extends Entity {
 
-    private double acceleration = 9.8;
+    private final double acceleration = 9.8;
     private boolean jumping;
-    
+
     public PlayerEntity(Sprite sprite) {
         super(sprite);
         jumping = false;
         position = new Vector(300, 300);
     }
-    
+
+    @Override
     public void update(long delta) {
-        
+
         if (jumping) {
             velocity.y += delta * acceleration;
         }
         position.y += 1 * velocity.y * (delta / 2);
-        
+
         // keyboard input
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
             // move right
@@ -43,12 +43,12 @@ public class PlayerEntity extends Entity {
             // attack
             //
         }
-        
+
         if (position.y > 450) {
             position.y = 450;
             jumping = false;
         }
-        
+
         draw();
     }
 }

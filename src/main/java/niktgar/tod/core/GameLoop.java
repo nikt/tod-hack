@@ -18,6 +18,9 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import niktgar.tod.block.BlockLayer;
+import niktgar.tod.block.BlockMap;
+import niktgar.tod.block.BlockMapBuilder;
 import niktgar.tod.entity.PlayerEntity;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
@@ -41,18 +44,18 @@ public class GameLoop {
 
     private Sprite blockSprite;
     private Sprite playerSprite;
-    private List<Sprite> spriteList;
-    
+    private final List<Sprite> spriteList;
+
     private final BlockMapBuilder mapBuilder;
     private final BlockLayer currentBlockLayer;
     private final BlockMap currentBlockMap;
-    
+
     private PlayerEntity player;
-    
+
     private long time;
     private long elapsed;
-    
-    public GameLoop() {
+
+    public GameLoop() throws TODException {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
         spriteList = new ArrayList<Sprite>();
@@ -69,20 +72,20 @@ public class GameLoop {
         currentBlockMap = mapBuilder.buildBlockMap(testMap, currentBlockLayer);
     }
 
-    public void initialize()  {
+    public void initialize() {
         try {
             Display.setTitle("TOD");
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(windowDimensions.width, windowDimensions.height));
             Display.create();
             glInitialization();
-            
-            blockSprite = spriteLoader.loadSprite("blocks/block_blue.png");
+
+            blockSprite = spriteLoader.loadSprite("blocks/blue.png");
             spriteList.add(blockSprite);
-            
+
             playerSprite = spriteLoader.loadSprite("entities/angry_tree.png");
             player = new PlayerEntity(playerSprite);
-            
+
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
             elapsed = 0;
         } catch (LWJGLException e) {
@@ -108,10 +111,10 @@ public class GameLoop {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-            
+
             elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
-            
+
             // call updates
             update(elapsed);
         }
@@ -122,14 +125,14 @@ public class GameLoop {
         Display.sync(60);
 
         currentBlockMap.draw();
-        
+
         // draw each sprite in sprite list
         for (Sprite s : spriteList) {
             s.draw(200, 200);
         }
-        
+
         player.update(delta);
-        
+
         // has to go after all other drawing
         Display.update();
     }
