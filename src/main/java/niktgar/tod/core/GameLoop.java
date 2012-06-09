@@ -16,6 +16,8 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Dimension;
 
+import niktgar.tod.sprite.Sprite;
+import niktgar.tod.sprite.SpriteLoader;
 import niktgar.tod.sprite.TextureLoader;
 
 import org.lwjgl.LWJGLException;
@@ -26,9 +28,12 @@ public class GameLoop {
 
     private final Dimension windowDimensions = new Dimension(800, 600);
 
-    private TextureLoader textureLoader;
+    private final TextureLoader textureLoader;
+    private final SpriteLoader spriteLoader;
 
     public GameLoop() {
+        textureLoader = new TextureLoader();
+        spriteLoader = new SpriteLoader(textureLoader);
         initialize();
     }
 
@@ -38,28 +43,32 @@ public class GameLoop {
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(windowDimensions.width, windowDimensions.height));
             Display.create();
-            glEnable(GL_TEXTURE_2D);
-            glDisable(GL_DEPTH_TEST);
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(0, windowDimensions.width, windowDimensions.height, 0, -1, 1);
-            glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
-            glViewport(0, 0, windowDimensions.width, windowDimensions.height);
-
-            textureLoader = new TextureLoader();
-
+            glInitialization();
         } catch (LWJGLException e) {
             throw new RuntimeException("Game initialization failed");
         }
     }
 
-    public void run() {
+    private void glInitialization() {
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_DEPTH_TEST);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, windowDimensions.width, windowDimensions.height, 0, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glViewport(0, 0, windowDimensions.width, windowDimensions.height);
+    }
+
+    public void run() throws TODException {
         while (!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-
+            //
+            Sprite sprite = spriteLoader.loadSprite("blocks/block_blue.png");
+            sprite.draw(200, 200);
+            //
             Display.update();
         }
         Display.destroy();
