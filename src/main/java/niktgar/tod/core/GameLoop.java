@@ -33,8 +33,6 @@ public class GameLoop {
 
     private static long timerTicksPerSecond = Sys.getTimerResolution();
 
-    private final int[][] testMap;
-
     private final Dimension windowDimensions = new Dimension(800, 600);
 
     private final TextureLoader textureLoader;
@@ -42,6 +40,7 @@ public class GameLoop {
 
     private Sprite playerSprite;
 
+    private final MapLoader mapLoader;
     private final BlockMapBuilder mapBuilder;
     private final BlockLayer currentBlockLayer;
     private final BlockMap currentBlockMap;
@@ -54,28 +53,13 @@ public class GameLoop {
     public GameLoop() throws TODException {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
+        mapLoader = new MapLoader();
         mapBuilder = new BlockMapBuilder(spriteLoader);
 
         initialize();
 
-        testMap = new int[25][18];
-        for (int column = 0; column < testMap.length; column++) {
-            testMap[column][16] = 4;
-        }
-        for (int column = 0; column < 10; column++) {
-            testMap[column][15] = 4;
-        }
-
-        for (int column = 0; column < 8; column++) {
-            testMap[column][13] = 4;
-            testMap[column][14] = 4;
-        }
-        for (int column = 20; column < testMap.length; column++) {
-            testMap[column][13] = 4;
-        }
-
         currentBlockLayer = new BlockLayer();
-        currentBlockMap = mapBuilder.buildBlockMap(testMap, currentBlockLayer);
+        currentBlockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), currentBlockLayer);
     }
 
     public void initialize() {
