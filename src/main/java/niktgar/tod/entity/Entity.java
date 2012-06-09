@@ -48,4 +48,12 @@ public class Entity implements Collidable {
     public void collidedWith(Collidable collidable) {
         // collide logic
     }
+
+    public void collidedTop(Collidable collidable) {
+
+    }
+
+    public void collidedBottom(Collidable collidable) {
+
+    }
 }
