@@ -131,6 +131,7 @@ public class GameLoop {
             s.draw(200, 200);
         }
 
+        currentBlockLayer.collide(player);
         player.update(delta);
 
         // has to go after all other drawing

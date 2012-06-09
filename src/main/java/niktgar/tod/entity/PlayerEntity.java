@@ -7,12 +7,12 @@ import org.lwjgl.input.Keyboard;
 
 public class PlayerEntity extends Entity {
 
-    private final double acceleration = 9.8;
+    private final double acceleration = 0.05;
     private boolean jumping;
 
     public PlayerEntity(Sprite sprite) {
         super(sprite);
-        jumping = false;
+        jumping = true;
         position = new Vector(300, 300);
     }
 
@@ -20,9 +20,9 @@ public class PlayerEntity extends Entity {
     public void update(long delta) {
 
         if (jumping) {
-            velocity.y += delta * acceleration;
+            velocity.y += (delta / 2) * acceleration;
+            position.y += 1 * velocity.y * (delta / 2);
         }
-        position.y += 1 * velocity.y * (delta / 2);
 
         // keyboard input
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
@@ -35,9 +35,11 @@ public class PlayerEntity extends Entity {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             // jump
-            jumping = true;
-            velocity.y = 20;
-            position.y -= 1 * velocity.y * (delta / 2);
+            if (!jumping) {
+                jumping = true;
+                velocity.y = -4;
+                position.y += 1 * velocity.y * (delta / 2);
+            }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
             // attack
@@ -47,6 +49,15 @@ public class PlayerEntity extends Entity {
         if (position.y > 450) {
             position.y = 450;
             jumping = false;
+        }
+        
+        if (position.x < -sprite.width())
+        {
+            position.x = 800;
+        }
+        else if (position.x > 800)
+        {
+            position.x = -sprite.width();
         }
 
         draw();

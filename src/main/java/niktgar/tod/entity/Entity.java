@@ -21,7 +21,7 @@ public class Entity implements Collidable {
     }
 
     public void draw() {
-        sprite.draw(Math.round(position.x), Math.round(position.y));
+        sprite.draw(position.snappedX(), position.snappedY());
     }
 
     public void update(long delta) {
