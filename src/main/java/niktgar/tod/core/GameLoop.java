@@ -31,15 +31,21 @@ import org.lwjgl.opengl.DisplayMode;
 public class GameLoop {
 
     private static long timerTicksPerSecond = Sys.getTimerResolution();
-    
+
+    private final int[][] testMap;
+
     private final Dimension windowDimensions = new Dimension(800, 600);
 
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
-    
+
     private Sprite blockSprite;
     private Sprite playerSprite;
     private List<Sprite> spriteList;
+    
+    private final BlockMapBuilder mapBuilder;
+    private final BlockLayer currentBlockLayer;
+    private final BlockMap currentBlockMap;
     
     private PlayerEntity player;
     
@@ -50,7 +56,17 @@ public class GameLoop {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
         spriteList = new ArrayList<Sprite>();
+        mapBuilder = new BlockMapBuilder(spriteLoader);
+
         initialize();
+
+        testMap = new int[25][18];
+        for (int column = 0; column < testMap.length; column++) {
+            testMap[column][16] = 4;
+        }
+
+        currentBlockLayer = new BlockLayer();
+        currentBlockMap = mapBuilder.buildBlockMap(testMap, currentBlockLayer);
     }
 
     public void initialize()  {
@@ -92,7 +108,7 @@ public class GameLoop {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-
+            
             elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
             
@@ -105,6 +121,8 @@ public class GameLoop {
     public void update(long delta) {
         Display.sync(60);
 
+        currentBlockMap.draw();
+        
         // draw each sprite in sprite list
         for (Sprite s : spriteList) {
             s.draw(200, 200);
