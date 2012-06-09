@@ -19,7 +19,7 @@ public class SpriteLoader {
             final Texture texture = textureLoader.getTexture(file);
             return new Sprite(texture, texture.getImageWidth(), texture.getImageHeight());
         } catch (IOException ioe) {
-            throw new TODException("Failed to load texture");
+            throw new TODException(String.format("Failed to load texture: %s", file));
         }
     }
 }
