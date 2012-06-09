@@ -25,6 +25,16 @@ public class Entity implements Collidable {
     }
 
     public void update(long delta) {
+        position.x += velocity.x / delta;
+        position.y += velocity.y / delta;
+    }
+
+    public void updateVelocity(final long delta, final Vector vector) {
+        velocity.x += vector.x / delta;
+        velocity.y += vector.y / delta;
+    }
+
+    public void doLogic() {
 
     }
 

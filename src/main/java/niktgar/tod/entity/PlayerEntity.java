@@ -46,8 +46,8 @@ public class PlayerEntity extends Entity {
             //
         }
 
-        if (position.y > 450) {
-            position.y = 450;
+        if (position.y > 475) {
+            position.y = 475;
             jumping = false;
         }
         
