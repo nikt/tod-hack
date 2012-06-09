@@ -1,4 +1,4 @@
-package niktgar.tod.core;
+package niktgar.tod.block;
 
 public class MapLoader {
 
