@@ -13,9 +13,9 @@ public class BoundingBoxQuad {
     private final BoundingBox bottom;
 
     public BoundingBoxQuad(final BoundingBox box) {
-        this.top = new BoundingBox(box.ulX() + 20, box.ulY(), box.lrX() - 20, box.ulY() + (box.lrY() - box.ulY()) / 2);
+        this.top = new BoundingBox(box.ulX() + 20, box.ulY(), box.lrX() - 20, box.ulY() + (box.boxHeight() / 2));
         this.left = null;
         this.right = null;
-        this.bottom = new BoundingBox(box.ulX() + 20, box.ulY() + (box.lrY() - box.ulY()) / 2, box.lrX() - 20, box.lrY());
+        this.bottom = new BoundingBox(box.ulX() + 20, box.ulY() + (box.boxHeight() / 2), box.lrX() - 20, box.lrY());
     }
 }

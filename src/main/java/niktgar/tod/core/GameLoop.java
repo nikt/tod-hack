@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import niktgar.tod.block.BlockLayer;
 import niktgar.tod.block.BlockMap;
 import niktgar.tod.block.BlockMapBuilder;
+import niktgar.tod.block.MapLoader;
 import niktgar.tod.entity.PlayerEntity;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
@@ -117,7 +118,6 @@ public class GameLoop {
         Display.sync(60);
         player.update(delta);
     }
-
 
     public void draw() {
         currentBlockMap.draw();
