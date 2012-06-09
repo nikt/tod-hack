@@ -1,6 +1,5 @@
 package niktgar.tod.entity;
 
-import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Sprite;
@@ -16,14 +15,16 @@ public class PlayerEntity extends Entity {
         super(sprite);
         jumping = true;
         position = new Vector(300, 300);
-        oldPosition = new Vector(300, 300);
+    }
+
+    @Override
+    public void doLogic() {
+
     }
 
     @Override
     public void update(long delta) {
-        oldPosition.x = position.x;
-        oldPosition.y = position.y;
-        
+
         if (jumping) {
             velocity.y += (delta / 4) * acceleration;
             position.y += 1 * velocity.y * (delta / 2);
@@ -62,28 +63,14 @@ public class PlayerEntity extends Entity {
             position.x = -sprite.width();
         }
     }
-    
+
     @Override
-    public void collidedWith(Collidable collidable) {
-        // collide logic
-        BoundingBox box = collidable.bound();
-        
-        if (jumping && (oldPosition.y + sprite.height()) <= box.ulY()) {
-            position.y = box.ulY() - sprite.height();
-            jumping = false;
-        } else if (jumping && oldPosition.y >= box.lrY()) {
-            position.y = box.lrY();
-            velocity.y = 0;
-        }
-        
-        //draw();
-    }
-    
     public void collidedTop(Collidable collidable) {
         position.y = collidable.bound().lrY();
         velocity.y = 0;
     }
 
+    @Override
     public void collidedBottom(Collidable collidable) {
         position.y = collidable.bound().ulY() - sprite.height();
         jumping = false;

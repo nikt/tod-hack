@@ -8,7 +8,6 @@ import niktgar.tod.sprite.Sprite;
 public class Entity implements Collidable {
 
     protected Sprite sprite;
-    protected Vector oldPosition;
     protected Vector position;
     protected Vector velocity;
 
@@ -18,7 +17,7 @@ public class Entity implements Collidable {
     }
 
     public void initialize() {
-        velocity = new Vector(5, 5);
+        velocity = new Vector(0, 0);
     }
 
     public void draw() {
