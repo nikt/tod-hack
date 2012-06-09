@@ -62,6 +62,17 @@ public class GameLoop {
         for (int column = 0; column < testMap.length; column++) {
             testMap[column][16] = 4;
         }
+        for (int column = 0; column < 10; column++) {
+            testMap[column][15] = 4;
+        }
+
+        for (int column = 0; column < 8; column++) {
+            testMap[column][13] = 4;
+            testMap[column][14] = 4;
+        }
+        for (int column = 20; column < testMap.length; column++) {
+            testMap[column][13] = 4;
+        }
 
         currentBlockLayer = new BlockLayer();
         currentBlockMap = mapBuilder.buildBlockMap(testMap, currentBlockLayer);
