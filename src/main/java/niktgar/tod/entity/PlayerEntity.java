@@ -78,4 +78,14 @@ public class PlayerEntity extends Entity {
         
         //draw();
     }
+    
+    public void collidedTop(Collidable collidable) {
+        position.y = collidable.bound().lrY();
+        velocity.y = 0;
+    }
+
+    public void collidedBottom(Collidable collidable) {
+        position.y = collidable.bound().ulY() - sprite.height();
+        jumping = false;
+    }
 }
