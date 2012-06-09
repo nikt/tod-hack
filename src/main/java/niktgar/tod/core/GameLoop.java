@@ -15,37 +15,64 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
+import niktgar.tod.entity.PlayerEntity;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
 import niktgar.tod.sprite.TextureLoader;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class GameLoop {
 
+    private static long timerTicksPerSecond = Sys.getTimerResolution();
+    
     private final Dimension windowDimensions = new Dimension(800, 600);
 
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
-
+    
+    private Sprite blockSprite;
+    private Sprite playerSprite;
+    private List<Sprite> spriteList;
+    
+    private PlayerEntity player;
+    
+    private long time;
+    private long elapsed;
+    
     public GameLoop() {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
+        spriteList = new ArrayList<Sprite>();
         initialize();
     }
 
-    public void initialize() {
+    public void initialize()  {
         try {
             Display.setTitle("TOD");
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(windowDimensions.width, windowDimensions.height));
             Display.create();
             glInitialization();
+            
+            blockSprite = spriteLoader.loadSprite("blocks/block_blue.png");
+            spriteList.add(blockSprite);
+            
+            playerSprite = spriteLoader.loadSprite("entities/angry_tree.png");
+            player = new PlayerEntity(playerSprite);
+            
+            time = (Sys.getTime() * 1000) / timerTicksPerSecond;
+            elapsed = 0;
         } catch (LWJGLException e) {
             throw new RuntimeException("Game initialization failed");
+        } catch (TODException e) {
+            throw new RuntimeException("Failed to load sprite");
         }
     }
 
@@ -60,21 +87,32 @@ public class GameLoop {
         glViewport(0, 0, windowDimensions.width, windowDimensions.height);
     }
 
-    public void run() throws TODException {
+    public void run() {
         while (!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-            //
-            Sprite sprite = spriteLoader.loadSprite("blocks/block_blue.png");
-            sprite.draw(200, 200);
-            //
-            Display.update();
+
+            elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
+            time = (Sys.getTime() * 1000) / timerTicksPerSecond;
+            
+            // call updates
+            update(elapsed);
         }
         Display.destroy();
     }
 
-    public void update() {
+    public void update(long delta) {
         Display.sync(60);
+
+        // draw each sprite in sprite list
+        for (Sprite s : spriteList) {
+            s.draw(200, 200);
+        }
+        
+        player.update(delta);
+        
+        // has to go after all other drawing
+        Display.update();
     }
 }

@@ -1,16 +1,28 @@
 package niktgar.tod.entity;
 
+import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Sprite;
 
 public class Entity {
+    
+    protected Sprite sprite;
+    protected Vector position;
+    protected Vector velocity;
 
-    private Sprite sprite;
-
+    public Entity(Sprite sprite) {
+        this.sprite = sprite;
+        initialize();
+    }
+    
+    public void initialize() {
+        velocity = new Vector(5, 5);
+    }
+    
     public void draw() {
-
+        sprite.draw(Math.round(position.x), Math.round(position.y));
     }
 
-    public void update() {
+    public void update(long delta) {
 
     }
 }
