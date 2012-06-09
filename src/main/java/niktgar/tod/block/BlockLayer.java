@@ -19,6 +19,7 @@ public class BlockLayer extends ArrayList<Block> {
 
             if (Intersection.checkForCollision(block.bound(), entity.bound())) {
                 System.err.println("COLLISION");
+                entity.collidedWith(block);
             }
         }
     }

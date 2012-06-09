@@ -8,6 +8,7 @@ import niktgar.tod.sprite.Sprite;
 public class Entity implements Collidable {
 
     protected Sprite sprite;
+    protected Vector oldPosition;
     protected Vector position;
     protected Vector velocity;
 

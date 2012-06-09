@@ -113,8 +113,8 @@ public class GameLoop {
 
         currentBlockMap.draw();
 
-        currentBlockLayer.collide(player);
         player.update(delta);
+        currentBlockLayer.collide(player);
 
         // has to go after all other drawing
         Display.update();

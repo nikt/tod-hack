@@ -1,5 +1,7 @@
 package niktgar.tod.entity;
 
+import niktgar.tod.collision.BoundingBox;
+import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Sprite;
 
@@ -14,13 +16,16 @@ public class PlayerEntity extends Entity {
         super(sprite);
         jumping = true;
         position = new Vector(300, 300);
+        oldPosition = new Vector(300, 300);
     }
 
     @Override
     public void update(long delta) {
-
+        oldPosition.x = position.x;
+        oldPosition.y = position.y;
+        
         if (jumping) {
-            velocity.y += (delta / 2) * acceleration;
+            velocity.y += (delta / 4) * acceleration;
             position.y += 1 * velocity.y * (delta / 2);
         }
 
@@ -37,7 +42,7 @@ public class PlayerEntity extends Entity {
             // jump
             if (!jumping) {
                 jumping = true;
-                velocity.y = -4;
+                velocity.y = -2;
                 position.y += 1 * velocity.y * (delta / 2);
             }
         }
@@ -46,8 +51,8 @@ public class PlayerEntity extends Entity {
             //
         }
 
-        if (position.y > 475) {
-            position.y = 475;
+        if (position.y > 600 - sprite.height()) {
+            position.y = 600 - sprite.height();
             jumping = false;
         }
         
@@ -60,6 +65,25 @@ public class PlayerEntity extends Entity {
             position.x = -sprite.width();
         }
 
+        draw();
+    }
+    
+    @Override
+    public void collidedWith(Collidable collidable) {
+        // collide logic
+        BoundingBox box = collidable.bound();
+        
+        if (jumping && (oldPosition.y + sprite.height()) <= box.ulY()) {
+            position.y = box.ulY() - sprite.height();
+            jumping = false;
+        } else if (jumping && oldPosition.y >= box.lrY()) {
+            position.y = box.lrY();
+            velocity.y = 0;
+        }
+        
+        oldPosition.x = position.x;
+        oldPosition.y = position.y;
+        
         draw();
     }
 }
