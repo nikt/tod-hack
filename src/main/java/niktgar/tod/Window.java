@@ -1,5 +1,6 @@
 package niktgar.tod;
 
-public class Sprite {
+
+public class Window {
 
 }
