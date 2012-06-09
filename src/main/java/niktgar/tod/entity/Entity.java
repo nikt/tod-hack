@@ -29,7 +29,7 @@ public class Entity implements Collidable {
         position.y += velocity.y / delta;
     }
 
-    public void updateVelocity(final long delta, final Vector vector) {
+    public void applyForce(final long delta, final Vector vector) {
         velocity.x += vector.x / delta;
         velocity.y += vector.y / delta;
     }
