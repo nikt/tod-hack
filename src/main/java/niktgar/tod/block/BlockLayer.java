@@ -23,9 +23,11 @@ public class BlockLayer extends ArrayList<Block> {
             if (Intersection.checkForCollision(blockBox, entityBox)) {
                 final BoundingBoxQuad quad = new BoundingBoxQuad(entityBox);
                 if (Intersection.checkForCollision(blockBox, quad.top())) {
+                    System.err.println("TOP");
                     entity.collidedTop(block);
                 }
-                if (Intersection.checkForCollision(blockBox, quad.bottom())) {
+                else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
+                    System.err.println("BOTTOM");
                     entity.collidedBottom(block);
                 }
             }
