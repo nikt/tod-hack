@@ -18,7 +18,7 @@ public class Entity implements Collidable {
     }
 
     public void initialize() {
-        velocity = new Vector(5, 5);
+        velocity = new Vector(0, 0);
     }
 
     public void draw() {
@@ -44,16 +44,19 @@ public class Entity implements Collidable {
         return new BoundingBox(position.snappedX(), position.snappedY(), position.snappedX() + sprite.width(), position.snappedY() + sprite.height());
     }
 
-    @Override
-    public void collidedWith(Collidable collidable) {
-        // collide logic
-    }
-
     public void collidedTop(Collidable collidable) {
 
     }
 
     public void collidedBottom(Collidable collidable) {
+
+    }
+    
+    public void collidedLeft(Collidable collidable) {
+
+    }
+
+    public void collidedRight(Collidable collidable) {
 
     }
 }

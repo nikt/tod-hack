@@ -63,22 +63,6 @@ public class PlayerEntity extends Entity {
         }
     }
     
-    @Override
-    public void collidedWith(Collidable collidable) {
-        // collide logic
-        BoundingBox box = collidable.bound();
-        
-        if (jumping && (oldPosition.y + sprite.height()) <= box.ulY()) {
-            position.y = box.ulY() - sprite.height();
-            jumping = false;
-        } else if (jumping && oldPosition.y >= box.lrY()) {
-            position.y = box.lrY();
-            velocity.y = 0;
-        }
-        
-        //draw();
-    }
-    
     public void collidedTop(Collidable collidable) {
         position.y = collidable.bound().lrY();
         velocity.y = 0;
@@ -87,5 +71,13 @@ public class PlayerEntity extends Entity {
     public void collidedBottom(Collidable collidable) {
         position.y = collidable.bound().ulY() - sprite.height();
         jumping = false;
+    }
+    
+    public void collidedLeft(Collidable collidable) {
+        position.x = collidable.bound().lrX();
+    }
+
+    public void collidedRight(Collidable collidable) {
+        position.x = collidable.bound().ulX() - sprite.width();
     }
 }
