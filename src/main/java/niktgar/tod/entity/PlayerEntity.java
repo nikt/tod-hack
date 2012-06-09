@@ -75,4 +75,14 @@ public class PlayerEntity extends Entity {
         position.y = collidable.bound().ulY() - sprite.height();
         jumping = false;
     }
+
+    @Override
+    public void collidedLeft(Collidable collidable) {
+        position.x = collidable.bound().lrX();
+    }
+
+    @Override
+    public void collidedRight(Collidable collidable) {
+        position.x = collidable.bound().ulX() - sprite.width();
+    }
 }

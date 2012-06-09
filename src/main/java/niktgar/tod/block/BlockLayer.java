@@ -30,6 +30,14 @@ public class BlockLayer extends ArrayList<Block> {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
                 }
+                else if (Intersection.checkForCollision(blockBox, quad.left())) {
+                    System.err.println("LEFT");
+                    entity.collidedLeft(block);
+                }
+                else if (Intersection.checkForCollision(blockBox, quad.right())) {
+                    System.err.println("RIGHT");
+                    entity.collidedRight(block);
+                }
             }
         }
     }
