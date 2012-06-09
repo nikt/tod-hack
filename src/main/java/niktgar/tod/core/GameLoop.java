@@ -62,13 +62,21 @@ public class GameLoop {
         currentBlockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), currentBlockLayer);
     }
 
-    public void initialize() {
+    public void initialize() throws TODException {
         try {
             Display.setTitle("TOD");
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(windowDimensions.width, windowDimensions.height));
             Display.create();
-            glInitialization();
+
+            glEnable(GL_TEXTURE_2D);
+            glDisable(GL_DEPTH_TEST);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(0, windowDimensions.width, windowDimensions.height, 0, -1, 1);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            glViewport(0, 0, windowDimensions.width, windowDimensions.height);
 
             playerSprite = spriteLoader.loadSprite("entities/angry_tree.png");
             player = new PlayerEntity(playerSprite);
@@ -77,20 +85,7 @@ public class GameLoop {
             elapsed = 0;
         } catch (LWJGLException e) {
             throw new RuntimeException("Game initialization failed");
-        } catch (TODException e) {
-            throw new RuntimeException("Failed to load sprite");
         }
-    }
-
-    private void glInitialization() {
-        glEnable(GL_TEXTURE_2D);
-        glDisable(GL_DEPTH_TEST);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, windowDimensions.width, windowDimensions.height, 0, -1, 1);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glViewport(0, 0, windowDimensions.width, windowDimensions.height);
     }
 
     public void run() {
@@ -104,19 +99,28 @@ public class GameLoop {
 
             // call updates
             update(elapsed);
+            // call collisions
+            handleCollisions();
+            // call drawing
+            draw();
+            // switch display buffer in
+            Display.update();
         }
         Display.destroy();
     }
 
+    public void handleCollisions() {
+        currentBlockLayer.checkForCollisions(player);
+    }
+
     public void update(long delta) {
         Display.sync(60);
-
-        currentBlockMap.draw();
-
         player.update(delta);
-        currentBlockLayer.collide(player);
+    }
 
-        // has to go after all other drawing
-        Display.update();
+
+    public void draw() {
+        currentBlockMap.draw();
+        player.draw();
     }
 }

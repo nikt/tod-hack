@@ -13,10 +13,9 @@ public class BlockLayer extends ArrayList<Block> {
         super();
     }
 
-    public void collide(final Entity entity) {
+    public void checkForCollisions(final Entity entity) {
         System.out.println("CHECK");
         for (final Block block : this) {
-
             if (Intersection.checkForCollision(block.bound(), entity.bound())) {
                 System.err.println("COLLISION");
                 entity.collidedWith(block);

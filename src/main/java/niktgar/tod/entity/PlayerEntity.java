@@ -55,17 +55,12 @@ public class PlayerEntity extends Entity {
             position.y = 600 - sprite.height();
             jumping = false;
         }
-        
-        if (position.x < -sprite.width())
-        {
+
+        if (position.x < -sprite.width()) {
             position.x = 800;
-        }
-        else if (position.x > 800)
-        {
+        } else if (position.x > 800) {
             position.x = -sprite.width();
         }
-
-        draw();
     }
     
     @Override
@@ -81,9 +76,6 @@ public class PlayerEntity extends Entity {
             velocity.y = 0;
         }
         
-        oldPosition.x = position.x;
-        oldPosition.y = position.y;
-        
-        draw();
+        //draw();
     }
 }
