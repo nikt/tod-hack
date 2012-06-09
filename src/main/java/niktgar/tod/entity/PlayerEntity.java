@@ -1,5 +1,7 @@
 package niktgar.tod.entity;
 
+import java.util.List;
+
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Sprite;
@@ -22,8 +24,15 @@ public class PlayerEntity extends Entity {
 
     }
 
+    public PlayerEntity(List<Sprite> sprites) {
+        super(sprites);
+        jumping = true;
+        position = new Vector(300, 300);
+    }
+
     @Override
     public void update(long delta) {
+        animation.update(delta);
 
         if (jumping) {
             velocity.y += (delta / 4) * acceleration;
@@ -52,15 +61,15 @@ public class PlayerEntity extends Entity {
             //
         }
 
-        if (position.y > 600 - sprite.height()) {
-            position.y = 600 - sprite.height();
+        if (position.y > 600 - animation.height()) {
+            position.y = 600 - animation.height();
             jumping = false;
         }
 
-        if (position.x < -sprite.width()) {
+        if (position.x < -animation.width()) {
             position.x = 800;
         } else if (position.x > 800) {
-            position.x = -sprite.width();
+            position.x = -animation.width();
         }
     }
 
@@ -72,7 +81,7 @@ public class PlayerEntity extends Entity {
 
     @Override
     public void collidedBottom(Collidable collidable) {
-        position.y = collidable.bound().ulY() - sprite.height();
+        position.y = collidable.bound().ulY() - animation.height();
         jumping = false;
     }
 
@@ -83,6 +92,6 @@ public class PlayerEntity extends Entity {
 
     @Override
     public void collidedRight(Collidable collidable) {
-        position.x = collidable.bound().ulX() - sprite.width();
+        position.x = collidable.bound().ulX() - animation.width();
     }
 }
