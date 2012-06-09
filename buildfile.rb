@@ -1,7 +1,7 @@
 require 'dependencies'
 
-VERSION_NUMBER = "1.1.0-SNAPSHOT"
-GROUP = "garjust"
+VERSION_NUMBER = "1.0.0-SNAPSHOT"
+GROUP = "niktgar"
 
 desc "The Tales of Dragons Hack"
 define 'tod-hack' do
