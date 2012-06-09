@@ -15,4 +15,8 @@ public class BoundingBox {
     public int boxHeight() {
         return lrY - ulY;
     }
+
+    public int boxWidth() {
+        return lrX - ulX;
+    }
 }
