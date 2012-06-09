@@ -22,7 +22,7 @@ public class Block implements Collidable {
 
     @Override
     public BoundingBox bound() {
-        return new BoundingBox(x, y, sprite.width(), sprite.height());
+        return new BoundingBox(x, y, x + sprite.width(), y + sprite.height());
     }
 
     @Override

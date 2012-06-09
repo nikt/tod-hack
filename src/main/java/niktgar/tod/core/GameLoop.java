@@ -15,8 +15,6 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 
 import niktgar.tod.block.BlockLayer;
 import niktgar.tod.block.BlockMap;
@@ -42,9 +40,7 @@ public class GameLoop {
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
 
-    private Sprite blockSprite;
     private Sprite playerSprite;
-    private final List<Sprite> spriteList;
 
     private final BlockMapBuilder mapBuilder;
     private final BlockLayer currentBlockLayer;
@@ -58,7 +54,6 @@ public class GameLoop {
     public GameLoop() throws TODException {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
-        spriteList = new ArrayList<Sprite>();
         mapBuilder = new BlockMapBuilder(spriteLoader);
 
         initialize();
@@ -79,9 +74,6 @@ public class GameLoop {
             Display.setDisplayMode(new DisplayMode(windowDimensions.width, windowDimensions.height));
             Display.create();
             glInitialization();
-
-            blockSprite = spriteLoader.loadSprite("blocks/blue.png");
-            spriteList.add(blockSprite);
 
             playerSprite = spriteLoader.loadSprite("entities/angry_tree.png");
             player = new PlayerEntity(playerSprite);
@@ -126,11 +118,7 @@ public class GameLoop {
 
         currentBlockMap.draw();
 
-        // draw each sprite in sprite list
-        for (Sprite s : spriteList) {
-            s.draw(200, 200);
-        }
-
+        currentBlockLayer.collide(player);
         player.update(delta);
 
         // has to go after all other drawing
