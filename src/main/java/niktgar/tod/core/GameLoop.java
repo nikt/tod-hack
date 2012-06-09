@@ -16,7 +16,9 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Dimension;
 
-import niktgar.tod.sprite.Sprite;
+import niktgar.tod.block.BlockLayer;
+import niktgar.tod.block.BlockMap;
+import niktgar.tod.block.BlockMapBuilder;
 import niktgar.tod.sprite.SpriteLoader;
 import niktgar.tod.sprite.TextureLoader;
 
@@ -26,15 +28,30 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class GameLoop {
 
+    private final int[][] testMap;
+
     private final Dimension windowDimensions = new Dimension(800, 600);
 
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
 
-    public GameLoop() {
+    private final BlockMapBuilder mapBuilder;
+    private final BlockLayer currentBlockLayer;
+    private final BlockMap currentBlockMap;
+
+    public GameLoop() throws TODException {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
+        mapBuilder = new BlockMapBuilder(spriteLoader);
         initialize();
+
+        testMap = new int[25][18];
+        for (int column = 0; column < testMap.length; column++) {
+            testMap[column][16] = 4;
+        }
+
+        currentBlockLayer = new BlockLayer();
+        currentBlockMap = mapBuilder.buildBlockMap(testMap, currentBlockLayer);
     }
 
     public void initialize() {
@@ -66,8 +83,7 @@ public class GameLoop {
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
             //
-            Sprite sprite = spriteLoader.loadSprite("blocks/block_blue.png");
-            sprite.draw(200, 200);
+            currentBlockMap.draw();
             //
             Display.update();
         }
