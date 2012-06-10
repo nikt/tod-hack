@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.BoundingBoxQuad;
-import niktgar.tod.collision.Intersection;
 import niktgar.tod.entity.Entity;
 import niktgar.tod.geometry.Vector;
 

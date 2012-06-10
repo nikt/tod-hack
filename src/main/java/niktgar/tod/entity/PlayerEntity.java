@@ -41,23 +41,23 @@ public class PlayerEntity extends Entity {
     @Override
     public void update(long delta) {
         System.out.println(position);
-        
+
         animationState = AnimationState.IDLE;
 
         if (jumping) {
             velocity.y += acceleration * delta * accAdjustment;
             position.y += velocity.y * delta * velAdjustment;
         }
-        
+
         switch (movementState) {
-        case FAST :
-            velocity.x = (float) 2;
+        case FAST:
+            velocity.x = 2;
             break;
-        case SLOW :
+        case SLOW:
             velocity.x = (float) 0.5;
             break;
-        default :
-            velocity.x = (float) 1;
+        default:
+            velocity.x = 1;
         }
 
         // keyboard input
@@ -77,7 +77,7 @@ public class PlayerEntity extends Entity {
                 jumping = true;
                 velocity.y = -2;
                 position.y += velocity.y * delta * velAdjustment;
-                //state = State.JUMP;
+                // state = State.JUMP;
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
@@ -85,11 +85,11 @@ public class PlayerEntity extends Entity {
             //
         }
 
-        if (position.y > 600 - animation.height()) {
-            position.y = 600 - animation.height();
-            velocity.y = 0;
-            jumping = false;
-        }
+        // if (position.y > 600 - animation.height()) {
+        // position.y = 600 - animation.height();
+        // velocity.y = 0;
+        // jumping = false;
+        // }
 
         // if (position.x < 0) {
         // position.x = 0;
@@ -100,7 +100,7 @@ public class PlayerEntity extends Entity {
         // update proper animation
 
         switch (animationState) {
-        case IDLE :
+        case IDLE:
             animation.update(delta);
             break;
         case LEFT:
@@ -139,7 +139,7 @@ public class PlayerEntity extends Entity {
     @Override
     public void draw(int x, int y) {
         switch (animationState) {
-        case IDLE :
+        case IDLE:
             animation.draw(position.snappedX() + x, position.snappedY() + y);
             break;
         case LEFT:
