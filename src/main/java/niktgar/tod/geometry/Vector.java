@@ -24,6 +24,11 @@ public class Vector {
         this.x = x;
         this.y = y;
     }
+    
+    public Vector(Vector vector) {
+        this.x = vector.x;
+        this.y = vector.y;
+    }
 
     public int snappedX() {
         return Math.round(x);
