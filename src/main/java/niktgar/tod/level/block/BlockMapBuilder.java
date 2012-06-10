@@ -33,10 +33,10 @@ public class BlockMapBuilder {
         this.blockIdMapping = new Hashtable<Integer, BlockReference>();
         blockIdMapping.put(0, new BlockReference(0, "empty.png", EMPTY_BLOCK_CLASS));
         blockIdMapping.put(1, new BlockReference(1, "hollow.png", NO_JUMP_BLOCK_CLASS));
-        blockIdMapping.put(2, new BlockReference(2, "black.png", FAST_BLOCK_CLASS));
+        blockIdMapping.put(2, new BlockReference(2, "gray.png", FAST_BLOCK_CLASS));
         blockIdMapping.put(3, new BlockReference(3, "red.png", SLOW_BLOCK_CLASS));
         blockIdMapping.put(4, new BlockReference(4, "green.png", BLOCK_CLASS));
-        blockIdMapping.put(5, new BlockReference(5, "blue_7.png", SUPER_JUMP_BLOCK_CLASS));
+        blockIdMapping.put(5, new BlockReference(5, "blue.png", SUPER_JUMP_BLOCK_CLASS));
     }
 
     public Sprite loadBlockSprite(final String blockSpriteFileName) throws TODException {
