@@ -13,10 +13,6 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import niktgar.tod.block.BlockLayer;
 import niktgar.tod.block.BlockMap;
 import niktgar.tod.block.BlockMapBuilder;
@@ -46,6 +42,8 @@ public class GameLoop {
     private final MapLoader mapLoader;
     private final BlockMapBuilder mapBuilder;
 
+    private final Timer timer;
+
     private Sprite background;
 
     private BlockLayer blockLayer;
@@ -54,28 +52,26 @@ public class GameLoop {
 
     private PlayerEntity player;
 
-    private long time;
-    private long elapsed;
-
     public GameLoop() {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
         animationLoader = new AnimationLoader();
         mapLoader = new MapLoader();
         mapBuilder = new BlockMapBuilder(spriteLoader);
+        timer = new Timer();
     }
 
     public void run() {
+        timer.reset();
         while (!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
 
-            elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
-            time = (Sys.getTime() * 1000) / timerTicksPerSecond;
+            timer.tick();
 
             Display.sync(60);
-            level.update(elapsed);
+            level.update(timer.delta());
             level.handleCollisions();
             background.draw(0, 0);
             level.draw();
@@ -100,14 +96,10 @@ public class GameLoop {
             glLoadIdentity();
             glViewport(0, 0, displayProperties.width(), displayProperties.height());
 
-            player = new PlayerEntity(animationLoader.loadMaskedAnimation("entities/angry_tree"), 
-                                      animationLoader.loadMaskedAnimation("entities/angry_tree_left"), 
-                                      animationLoader.loadMaskedAnimation("entities/angry_tree_right"));
+            player = new PlayerEntity(animationLoader.loadMaskedAnimation("entities/angry_tree"),
+                    animationLoader.loadMaskedAnimation("entities/angry_tree_left"), animationLoader.loadMaskedAnimation("entities/angry_tree_right"));
 
             background = spriteLoader.loadSprite("forest.jpg");
-
-            time = (Sys.getTime() * 1000) / timerTicksPerSecond;
-            elapsed = 0;
         } catch (LWJGLException e) {
             throw new RuntimeException("Game initialization failed");
         }
