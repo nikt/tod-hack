@@ -25,13 +25,10 @@ import niktgar.tod.sprite.TextureLoader;
 import niktgar.tod.sprite.animation.AnimationLoader;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class GameLoop {
-
-    private static long timerTicksPerSecond = Sys.getTimerResolution();
 
     private final DisplayProperties displayProperties = new DisplayProperties(800, 600, false, "tod-hack");
 

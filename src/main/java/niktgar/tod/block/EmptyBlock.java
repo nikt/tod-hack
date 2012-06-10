@@ -1,20 +1,17 @@
 package niktgar.tod.block;
 
-import niktgar.tod.sprite.Sprite;
+public class EmptyBlock extends DefaultBlock {
 
-public class EmptyBlock extends Block {
-
-    public EmptyBlock(Sprite sprite, int x, int y) {
-        super(sprite, x, y);
+    public EmptyBlock(int x, int y) {
+        super(x, y);
     }
 
     @Override
-    public void draw() {
-
-    }
+    public void update(long delta) {}
 
     @Override
-    public void draw(int x, int y) {
+    public void draw() {}
 
-    }
+    @Override
+    public void draw(int offsetX, int offsetY) {}
 }
