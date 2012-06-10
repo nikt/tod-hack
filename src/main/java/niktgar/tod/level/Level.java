@@ -9,13 +9,11 @@ import niktgar.tod.entity.Entity;
 @Data
 public class Level {
 
-    private Entity anchor;
     private Camera camera;
 
     private BlockMap blockMap;
 
     public Level(Entity anchor, BlockMap map) {
-        this.anchor = anchor;
         this.blockMap = map;
         this.camera = new Camera(anchor);
     }

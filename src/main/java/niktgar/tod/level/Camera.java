@@ -17,16 +17,22 @@ public class Camera {
     public Camera(Entity anchor) {
         this.anchor = anchor;
         x = 0;
-        min = 200;
-        max = 600;
+        min = 300;
+        max = 500;
     }
 
     public void pull() {
         int offset = anchor.position().snappedX() - x;
         if (offset < min) {
-            x -= offset;
+            x -= min - offset;
+            if (x < 0) {
+                x = 0;
+            }
         } else if (offset > max) {
-            x += offset;
+            x += offset - max;
+            if (x > 800) {
+                x = 800;
+            }
         }
     }
 }
