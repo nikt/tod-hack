@@ -13,6 +13,9 @@ public class PlayerEntity extends Entity {
 
     private final double acceleration = 0.05;
     private boolean jumping;
+    
+    private static final double velAdjustment = 0.5;
+    private static final double accAdjustment = 0.25;
 
     public PlayerEntity(Sprite sprite) {
         super(sprite);
@@ -43,25 +46,25 @@ public class PlayerEntity extends Entity {
         System.out.println(position);
 
         if (jumping) {
-            velocity.y += (delta / 4) * acceleration;
-            position.y += 1 * velocity.y * (delta / 2);
+            velocity.y += acceleration * delta * accAdjustment;
+            position.y += velocity.y * delta * velAdjustment;
         }
 
         // keyboard input
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
             // move right
-            position.x += 1 * (delta / 2);
+            position.x += delta / 2;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
             // move left
-            position.x -= 1 * (delta / 2);
+            position.x -= delta / 2;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             // jump
             if (!jumping) {
                 jumping = true;
                 velocity.y = -2;
-                position.y += 1 * velocity.y * (delta / 2);
+                position.y += velocity.y * delta * velAdjustment;
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
@@ -71,6 +74,7 @@ public class PlayerEntity extends Entity {
 
         if (position.y > 600 - animation.height()) {
             position.y = 600 - animation.height();
+            velocity.y = 0;
             jumping = false;
         }
 
@@ -85,5 +89,13 @@ public class PlayerEntity extends Entity {
     public void collidedBottom(Collidable collidable) {
         super.collidedBottom(collidable);
         jumping = false;
+    }
+    
+    @Override
+    public void alertFloating() {
+        if (!jumping) {
+            velocity.y = 0;
+            jumping = true;
+        }
     }
 }

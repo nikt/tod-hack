@@ -76,6 +76,10 @@ public class Entity implements Collidable {
     public void collidedRight(Collidable collidable) {
         position.x = collidable.bound().ulX() - animation.width();
     }
+    
+    public void alertFloating() {
+        
+    }
 
     @Override
     public void collidedWith(Collidable collidable) {
