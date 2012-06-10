@@ -36,30 +36,30 @@ public class BlockLayer extends ArrayList<Block> {
                 } else if (blockBox.isColliding(quad.left())) {
                     System.err.println("LEFT");
                     if (blockBox.isInside(new Vector(entity.bound().ulX(), entity.bound().ulY() + 1))) {
-                        Vector oldPosition = new Vector(0, 0);
-                        oldPosition.x = entity.position().x;
-                        oldPosition.y = entity.position().y;
+                        Vector oldPosition = new Vector(entity.position());
+                        Vector oldVelocity = new Vector(entity.velocity());
                         entity.collidedTop(block);
                         if (blockBox.isColliding((new BoundingBoxQuad(entity.bound())).left())) {
                             entity.collidedLeft(block);
                         } else {
                             entity.position(oldPosition);
                         }
+                        entity.velocity(oldVelocity);
                     } else {
                         entity.collidedLeft(block);
                     }
                 } else if (blockBox.isColliding(quad.right())) {
                     System.err.println("RIGHT");
-                    if (blockBox.isInside(new Vector(entity.bound().lrX(), entity.bound().ulY() + 1))) {
-                        Vector oldPosition = new Vector(0, 0);
-                        oldPosition.x = entity.position().x;
-                        oldPosition.y = entity.position().y;
+                    if (blockBox.isInside(new Vector(entity.bound().ulX(), entity.bound().ulY() + 1))) {
+                        Vector oldPosition = new Vector(entity.position());
+                        Vector oldVelocity = new Vector(entity.velocity());
                         entity.collidedTop(block);
                         if (blockBox.isColliding((new BoundingBoxQuad(entity.bound())).right())) {
                             entity.collidedRight(block);
                         } else {
                             entity.position(oldPosition);
                         }
+                        entity.velocity(oldVelocity);
                     } else {
                         entity.collidedRight(block);
                     }
