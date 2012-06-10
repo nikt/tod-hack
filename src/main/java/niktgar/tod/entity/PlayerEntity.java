@@ -16,6 +16,9 @@ public class PlayerEntity extends Entity {
 
     private static final double velAdjustment = 0.5;
     private static final double accAdjustment = 0.25;
+    
+    private Animation leftAnimation;
+    private Animation rightAnimation;
 
     public PlayerEntity(Sprite sprite) {
         super(sprite);
@@ -25,12 +28,24 @@ public class PlayerEntity extends Entity {
 
     public PlayerEntity(List<Sprite> sprites) {
         super(sprites);
+        this.leftAnimation = null;
+        this.rightAnimation = null;
         jumping = true;
         position = new Vector(300, 300);
     }
 
     public PlayerEntity(Animation animation) {
         super(animation);
+        this.leftAnimation = null;
+        this.rightAnimation = null;
+        jumping = true;
+        position = new Vector(300, 300);
+    }
+    
+    public PlayerEntity(Animation animation, Animation leftAnimation, Animation rightAnimation) {
+        super(animation);
+        this.leftAnimation = leftAnimation;
+        this.rightAnimation = rightAnimation;
         jumping = true;
         position = new Vector(300, 300);
     }
@@ -86,7 +101,28 @@ public class PlayerEntity extends Entity {
             position.x = 1600 - animation.width();
         }
         
-        animation.update(delta);
+        // update proper animation
+        switch (state) {
+        case IDLE :
+            animation.update(delta);
+            break;
+        case LEFT :
+            if (leftAnimation != null) {
+                leftAnimation.update(delta);
+            } else {
+                animation.update(delta);
+            }
+            break;
+        case RIGHT :
+            if (rightAnimation != null) {
+                rightAnimation.update(delta);
+            } else {
+                animation.update(delta);
+            }
+            break;
+        default :
+            animation.update(delta);
+        }
     }
 
     @Override
@@ -100,6 +136,31 @@ public class PlayerEntity extends Entity {
         if (!jumping) {
             velocity.y = 0;
             jumping = true;
+        }
+    }
+    
+    @Override
+    public void draw(int x, int y) {
+        switch (state) {
+        case IDLE :
+            animation.draw(position.snappedX() + x, position.snappedY() + y);
+            break;
+        case LEFT :
+            if (leftAnimation != null) {
+                leftAnimation.draw(position.snappedX() + x, position.snappedY() + y);
+            } else {
+                animation.draw(position.snappedX() + x, position.snappedY() + y);
+            }
+            break;
+        case RIGHT :
+            if (rightAnimation != null) {
+                rightAnimation.draw(position.snappedX() + x, position.snappedY() + y);
+            } else {
+                animation.draw(position.snappedX() + x, position.snappedY() + y);
+            }
+            break;
+        default :
+            animation.draw(position.snappedX() + x, position.snappedY() + y);
         }
     }
 }

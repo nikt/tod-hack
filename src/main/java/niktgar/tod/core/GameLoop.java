@@ -90,10 +90,9 @@ public class GameLoop {
             glLoadIdentity();
             glViewport(0, 0, windowDimensions.width, windowDimensions.height);
 
-            List<Sprite> sprites = new ArrayList<Sprite>();
-            sprites.add(spriteLoader.loadSprite("entities/angry_tree1.png"));
-            sprites.add(spriteLoader.loadSprite("entities/angry_tree2.png"));
-            player = new PlayerEntity(animationLoader.loadAnimation("entities/angry_tree"));
+            player = new PlayerEntity(animationLoader.loadMaskedAnimation("entities/angry_tree"), 
+                                      animationLoader.loadMaskedAnimation("entities/angry_tree_left"), 
+                                      animationLoader.loadMaskedAnimation("entities/angry_tree_right"));
 
             background = spriteLoader.loadSprite("forest-light-900.jpg");
 
