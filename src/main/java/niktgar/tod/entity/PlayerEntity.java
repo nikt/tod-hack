@@ -4,6 +4,7 @@ import java.util.List;
 
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
+import niktgar.tod.sprite.Animation;
 import niktgar.tod.sprite.Sprite;
 
 import org.lwjgl.input.Keyboard;
@@ -19,17 +20,23 @@ public class PlayerEntity extends Entity {
         position = new Vector(300, 300);
     }
 
-    @Override
-    public void doLogic() {
-
-    }
-
     public PlayerEntity(List<Sprite> sprites) {
         super(sprites);
         jumping = true;
         position = new Vector(300, 300);
     }
+    
+    public PlayerEntity(Animation animation) {
+        super(animation);
+        jumping = true;
+        position = new Vector(300, 300);
+    }
 
+    @Override
+    public void doLogic() {
+
+    }
+    
     @Override
     public void update(long delta) {
         animation.update(delta);

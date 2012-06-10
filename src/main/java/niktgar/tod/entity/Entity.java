@@ -27,6 +27,11 @@ public class Entity implements Collidable {
         this.animation = new Animation(sprites);
         initialize();
     }
+    
+    public Entity(Animation animation) {
+        this.animation = animation;
+        initialize();
+    }
 
     public void initialize() {
         velocity = new Vector(0, 0);
