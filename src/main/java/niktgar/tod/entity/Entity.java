@@ -27,7 +27,7 @@ public class Entity implements Collidable {
         this.animation = new Animation(sprites);
         initialize();
     }
-    
+
     public Entity(Animation animation) {
         this.animation = animation;
         initialize();
@@ -39,6 +39,10 @@ public class Entity implements Collidable {
 
     public void draw() {
         animation.draw(position.snappedX(), position.snappedY());
+    }
+
+    public void draw(int x, int y) {
+        animation.draw(position.snappedX() + x, position.snappedY() + y);
     }
 
     public void update(long delta) {
@@ -76,9 +80,9 @@ public class Entity implements Collidable {
     public void collidedRight(Collidable collidable) {
         position.x = collidable.bound().ulX() - animation.width();
     }
-    
+
     public void alertFloating() {
-        
+
     }
 
     @Override

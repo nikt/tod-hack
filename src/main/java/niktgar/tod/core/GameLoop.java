@@ -42,7 +42,7 @@ public class GameLoop {
 
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
-    
+
     private final AnimationLoader animationLoader;
 
     private final MapLoader mapLoader;
@@ -137,6 +137,6 @@ public class GameLoop {
     public void draw() {
         background.draw(0, 0);
         level.draw();
-        player.draw();
+        // player.draw();
     }
 }

@@ -13,7 +13,7 @@ public class PlayerEntity extends Entity {
 
     private final double acceleration = 0.05;
     private boolean jumping;
-    
+
     private static final double velAdjustment = 0.5;
     private static final double accAdjustment = 0.25;
 
@@ -28,7 +28,7 @@ public class PlayerEntity extends Entity {
         jumping = true;
         position = new Vector(300, 300);
     }
-    
+
     public PlayerEntity(Animation animation) {
         super(animation);
         jumping = true;
@@ -39,7 +39,7 @@ public class PlayerEntity extends Entity {
     public void doLogic() {
 
     }
-    
+
     @Override
     public void update(long delta) {
         animation.update(delta);
@@ -80,8 +80,8 @@ public class PlayerEntity extends Entity {
 
         if (position.x < 0) {
             position.x = 0;
-        } else if (position.x + animation.width() > 800) {
-            position.x = 800 - animation.width();
+        } else if (position.x + animation.width() > 1600) {
+            position.x = 1600 - animation.width();
         }
     }
 
@@ -90,7 +90,7 @@ public class PlayerEntity extends Entity {
         super.collidedBottom(collidable);
         jumping = false;
     }
-    
+
     @Override
     public void alertFloating() {
         if (!jumping) {
