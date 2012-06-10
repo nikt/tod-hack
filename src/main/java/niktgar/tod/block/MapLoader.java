@@ -3,7 +3,7 @@ package niktgar.tod.block;
 public class MapLoader {
 
     public int[][] createTestMap() {
-        final int[][] map = new int[50][18];
+        final int[][] map = new int[100][18];
         for (int column = 0; column < map.length; column++) {
             map[column][16] = 4;
         }
