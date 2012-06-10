@@ -57,19 +57,20 @@ public class Entity implements Collidable {
     }
 
     public void collidedTop(Collidable collidable) {
-
+        position.y = collidable.bound().lrY();
+        velocity.y = 0;
     }
 
     public void collidedBottom(Collidable collidable) {
-
+        position.y = collidable.bound().ulY() - animation.height();
     }
 
     public void collidedLeft(Collidable collidable) {
-
+        position.x = collidable.bound().lrX();
     }
 
     public void collidedRight(Collidable collidable) {
-
+        position.x = collidable.bound().ulX() - animation.width();
     }
 
     @Override

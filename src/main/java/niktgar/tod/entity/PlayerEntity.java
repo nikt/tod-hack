@@ -81,24 +81,8 @@ public class PlayerEntity extends Entity {
     }
 
     @Override
-    public void collidedTop(Collidable collidable) {
-        position.y = collidable.bound().lrY();
-        velocity.y = 0;
-    }
-
-    @Override
     public void collidedBottom(Collidable collidable) {
-        position.y = collidable.bound().ulY() - animation.height();
+        super.collidedBottom(collidable);
         jumping = false;
-    }
-
-    @Override
-    public void collidedLeft(Collidable collidable) {
-        position.x = collidable.bound().lrX();
-    }
-
-    @Override
-    public void collidedRight(Collidable collidable) {
-        position.x = collidable.bound().ulX() - animation.width();
     }
 }
