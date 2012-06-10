@@ -2,12 +2,16 @@ package niktgar.tod.entity;
 
 import java.util.List;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Animation;
 import niktgar.tod.sprite.Sprite;
 
+@Accessors(fluent = true)
+@Data
 public class Entity implements Collidable {
 
     protected Animation animation;

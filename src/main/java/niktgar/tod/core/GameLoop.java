@@ -23,6 +23,7 @@ import niktgar.tod.block.BlockMap;
 import niktgar.tod.block.BlockMapBuilder;
 import niktgar.tod.block.MapLoader;
 import niktgar.tod.entity.PlayerEntity;
+import niktgar.tod.level.Level;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
 import niktgar.tod.sprite.TextureLoader;
@@ -46,6 +47,8 @@ public class GameLoop {
     private final BlockLayer currentBlockLayer;
     private final BlockMap currentBlockMap;
 
+    private final Level level;
+
     private Sprite background;
 
     private PlayerEntity player;
@@ -63,6 +66,8 @@ public class GameLoop {
 
         currentBlockLayer = new BlockLayer();
         currentBlockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), currentBlockLayer);
+
+        level = new Level(player, currentBlockMap);
     }
 
     public void initialize() throws TODException {
@@ -127,7 +132,7 @@ public class GameLoop {
 
     public void draw() {
         background.draw(0, 0);
-        currentBlockMap.draw();
+        level.draw();
         player.draw();
     }
 }

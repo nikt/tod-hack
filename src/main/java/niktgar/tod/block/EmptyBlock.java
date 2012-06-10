@@ -12,4 +12,9 @@ public class EmptyBlock extends Block {
     public void draw() {
 
     }
+
+    @Override
+    public void draw(int x, int y) {
+
+    }
 }

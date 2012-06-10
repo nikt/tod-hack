@@ -67,10 +67,10 @@ public class PlayerEntity extends Entity {
             jumping = false;
         }
 
-        if (position.x < -animation.width()) {
-            position.x = 800;
-        } else if (position.x > 800) {
-            position.x = -animation.width();
+        if (position.x < 0) {
+            position.x = 0;
+        } else if (position.x + animation.width() > 800) {
+            position.x = 800 - animation.width();
         }
     }
 

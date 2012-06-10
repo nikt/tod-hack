@@ -20,6 +20,10 @@ public class Block implements Collidable {
         sprite.draw(x, y);
     }
 
+    public void draw(final int offsetX, final int offsetY) {
+        sprite.draw(x + offsetX, y + offsetY);
+    }
+
     @Override
     public BoundingBox bound() {
         return new BoundingBox(x, y, x + sprite.width(), y + sprite.height());

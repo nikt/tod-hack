@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 @Data
 public class BlockMap {
 
-    public static final BlockMap EIGHT_BY_SIX = new BlockMap(new Block[25][18]);
     public static final int BLOCK_SIZE = 32;
 
     private final Block[][] map;
@@ -25,9 +24,13 @@ public class BlockMap {
     }
 
     public void draw() {
+        draw(0, 0);
+    }
+
+    public void draw(final int x, final int y) {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                map[r][c].draw();
+                map[r][c].draw(x, y);
             }
         }
     }
