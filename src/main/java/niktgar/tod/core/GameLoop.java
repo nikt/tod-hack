@@ -65,6 +65,25 @@ public class GameLoop {
         mapBuilder = new BlockMapBuilder(spriteLoader);
     }
 
+    public void run() {
+        while (!Display.isCloseRequested()) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+
+            elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
+            time = (Sys.getTime() * 1000) / timerTicksPerSecond;
+
+            Display.sync(60);
+            level.update(elapsed);
+            level.handleCollisions();
+            background.draw(0, 0);
+            level.draw();
+            Display.update();
+        }
+        Display.destroy();
+    }
+
     public void initialize() throws TODException {
         try {
             Display.setTitle(displayProperties.title());
@@ -99,28 +118,5 @@ public class GameLoop {
         blockLayer = new BlockLayer();
         blockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), blockLayer);
         level = new Level(blockMap, blockLayer, player);
-    }
-
-    public void run() {
-        while (!Display.isCloseRequested()) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
-
-            elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
-            time = (Sys.getTime() * 1000) / timerTicksPerSecond;
-
-            Display.sync(60);
-
-            level.update(elapsed);
-
-            level.handleCollisions();
-
-            background.draw(0, 0);
-            level.draw();
-
-            Display.update();
-        }
-        Display.destroy();
     }
 }
