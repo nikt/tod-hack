@@ -1,11 +1,8 @@
 package niktgar.tod.entity;
 
-import java.util.List;
-
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Animation;
-import niktgar.tod.sprite.Sprite;
 
 import org.lwjgl.input.Keyboard;
 
@@ -20,20 +17,6 @@ public class PlayerEntity extends Entity {
     private Animation leftAnimation;
     private Animation rightAnimation;
 
-    public PlayerEntity(Sprite sprite) {
-        super(sprite);
-        jumping = true;
-        position = new Vector(300, 300);
-    }
-
-    public PlayerEntity(List<Sprite> sprites) {
-        super(sprites);
-        this.leftAnimation = null;
-        this.rightAnimation = null;
-        jumping = true;
-        position = new Vector(300, 300);
-    }
-
     public PlayerEntity(Animation animation) {
         super(animation);
         this.leftAnimation = null;
@@ -47,7 +30,7 @@ public class PlayerEntity extends Entity {
         this.leftAnimation = leftAnimation;
         this.rightAnimation = rightAnimation;
         jumping = true;
-        position = new Vector(300, 300);
+        position = new Vector(50, 300);
     }
 
     @Override
