@@ -1,5 +1,10 @@
 package niktgar.tod.geometry;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+@Accessors(fluent = true)
+@Data
 public class Vector {
 
     public float x;

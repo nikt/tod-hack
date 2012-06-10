@@ -16,7 +16,6 @@ public class BlockLayer extends ArrayList<Block> {
     }
 
     public void checkForCollisions(final Entity entity) {
-        System.out.println("CHECK");
         for (final Block block : this) {
             final BoundingBox blockBox = block.bound();
             final BoundingBox entityBox = entity.bound();
@@ -25,16 +24,13 @@ public class BlockLayer extends ArrayList<Block> {
                 if (Intersection.checkForCollision(blockBox, quad.top())) {
                     System.err.println("TOP");
                     entity.collidedTop(block);
-                }
-                else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
+                } else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
-                }
-                else if (Intersection.checkForCollision(blockBox, quad.left())) {
+                } else if (Intersection.checkForCollision(blockBox, quad.left())) {
                     System.err.println("LEFT");
                     entity.collidedLeft(block);
-                }
-                else if (Intersection.checkForCollision(blockBox, quad.right())) {
+                } else if (Intersection.checkForCollision(blockBox, quad.right())) {
                     System.err.println("RIGHT");
                     entity.collidedRight(block);
                 }

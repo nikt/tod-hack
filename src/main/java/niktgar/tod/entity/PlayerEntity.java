@@ -33,6 +33,7 @@ public class PlayerEntity extends Entity {
     @Override
     public void update(long delta) {
         animation.update(delta);
+        System.out.println(position);
 
         if (jumping) {
             velocity.y += (delta / 4) * acceleration;

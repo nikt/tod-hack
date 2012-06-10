@@ -41,12 +41,12 @@ public class GameLoop {
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
 
-    private Sprite playerSprite;
-
     private final MapLoader mapLoader;
     private final BlockMapBuilder mapBuilder;
     private final BlockLayer currentBlockLayer;
     private final BlockMap currentBlockMap;
+
+    private Sprite background;
 
     private PlayerEntity player;
 
@@ -86,6 +86,8 @@ public class GameLoop {
             sprites.add(spriteLoader.loadSprite("entities/angry_tree2.png"));
             player = new PlayerEntity(sprites);
 
+            background = spriteLoader.loadSprite("forest-light-900.jpg");
+
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
             elapsed = 0;
         } catch (LWJGLException e) {
@@ -124,6 +126,7 @@ public class GameLoop {
     }
 
     public void draw() {
+        background.draw(0, 0);
         currentBlockMap.draw();
         player.draw();
     }
