@@ -28,7 +28,7 @@ public class SpriteLoader {
             final Texture texture = textureLoader.getTexture(file);
             final Texture mask = textureLoader.getTexture(maskFile);
             return new MaskedSprite(texture, mask, texture.getImageWidth(), texture.getImageHeight());
-        } catch (IOException ioe) {
+        } catch (IOException e) {
             throw new TODException(String.format("Failed to load one of: %s %s", file, maskFile));
         }
     }

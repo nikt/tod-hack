@@ -2,7 +2,7 @@ package niktgar.tod.block;
 
 import niktgar.tod.sprite.Sprite;
 
-public class EmptyBlock extends Block {
+public class EmptyBlock extends DefaultBlock {
 
     public EmptyBlock(Sprite sprite, int x, int y) {
         super(sprite, x, y);
