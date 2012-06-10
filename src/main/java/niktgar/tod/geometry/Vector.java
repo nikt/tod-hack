@@ -9,6 +9,11 @@ public class Vector {
 
     public float x;
     public float y;
+    
+    public Vector  () {
+        this.x = 0;
+        this.y = 0;
+    }
 
     public Vector(int x, int y) {
         this.x = x;
