@@ -19,4 +19,11 @@ public class BoundingBox {
     public int boxWidth() {
         return lrX - ulX;
     }
+
+    public boolean isColliding(final BoundingBox otherBox) {
+        if (lrX <= otherBox.ulX() || ulX >= otherBox.lrX() || lrY <= otherBox.ulY() || ulY >= otherBox.lrY()) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.BoundingBoxQuad;
-import niktgar.tod.collision.Intersection;
 import niktgar.tod.entity.Entity;
 
 public class BlockLayer extends ArrayList<Block> {
@@ -21,20 +20,20 @@ public class BlockLayer extends ArrayList<Block> {
         for (final Block block : this) {
             final BoundingBox blockBox = block.bound();
             final BoundingBox entityBox = entity.bound();
-            if (Intersection.checkForCollision(blockBox, entityBox)) {
+            if (blockBox.isColliding(entityBox)) {
                 final BoundingBoxQuad quad = new BoundingBoxQuad(entityBox);
 
-                if (Intersection.checkForCollision(blockBox, quad.top())) {
+                if (blockBox.isColliding(quad.top())) {
                     System.err.println("TOP");
                     entity.collidedTop(block);
-                } else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
+                } else if (blockBox.isColliding(quad.bottom())) {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
                     floating = false;
-                } else if (Intersection.checkForCollision(blockBox, quad.left())) {
+                } else if (blockBox.isColliding(quad.left())) {
                     System.err.println("LEFT");
                     entity.collidedLeft(block);
-                } else if (Intersection.checkForCollision(blockBox, quad.right())) {
+                } else if (blockBox.isColliding(quad.right())) {
                     System.err.println("RIGHT");
                     entity.collidedRight(block);
                 }
