@@ -1,11 +1,8 @@
 package niktgar.tod.entity;
 
-import java.util.List;
-
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
 import niktgar.tod.sprite.Animation;
-import niktgar.tod.sprite.Sprite;
 
 import org.lwjgl.input.Keyboard;
 
@@ -17,22 +14,10 @@ public class PlayerEntity extends Entity {
     private static final double velAdjustment = 0.5;
     private static final double accAdjustment = 0.25;
 
-    public PlayerEntity(Sprite sprite) {
-        super(sprite);
-        jumping = true;
-        position = new Vector(300, 300);
-    }
-
-    public PlayerEntity(List<Sprite> sprites) {
-        super(sprites);
-        jumping = true;
-        position = new Vector(300, 300);
-    }
-
     public PlayerEntity(Animation animation) {
         super(animation);
         jumping = true;
-        position = new Vector(300, 300);
+        position = new Vector(50, 300);
     }
 
     @Override
@@ -85,7 +70,7 @@ public class PlayerEntity extends Entity {
         } else if (position.x + animation.width() > 1600) {
             position.x = 1600 - animation.width();
         }
-        
+
         animation.update(delta);
     }
 

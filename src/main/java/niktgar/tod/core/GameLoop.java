@@ -95,7 +95,7 @@ public class GameLoop {
             sprites.add(spriteLoader.loadSprite("entities/angry_tree2.png"));
             player = new PlayerEntity(animationLoader.loadAnimation("entities/angry_tree"));
 
-            background = spriteLoader.loadSprite("forest-light-900.jpg");
+            background = spriteLoader.loadSprite("forest.jpg");
 
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
             elapsed = 0;
