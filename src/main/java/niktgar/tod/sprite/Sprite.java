@@ -15,9 +15,9 @@ import lombok.experimental.Accessors;
 @Data
 public class Sprite {
 
-    private final Texture texture;
-    private final int width;
-    private final int height;
+    protected final Texture texture;
+    protected final int width;
+    protected final int height;
 
     public void draw(int x, int y) {
         glPushMatrix();
