@@ -13,10 +13,6 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import niktgar.tod.block.BlockLayer;
 import niktgar.tod.block.BlockMap;
 import niktgar.tod.block.BlockMapBuilder;

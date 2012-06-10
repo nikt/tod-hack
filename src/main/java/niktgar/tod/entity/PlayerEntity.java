@@ -41,6 +41,8 @@ public class PlayerEntity extends Entity {
     @Override
     public void update(long delta) {
         System.out.println(position);
+        
+        state = State.IDLE;
 
         if (jumping) {
             velocity.y += acceleration * delta * accAdjustment;
@@ -64,7 +66,7 @@ public class PlayerEntity extends Entity {
                 jumping = true;
                 velocity.y = -2;
                 position.y += velocity.y * delta * velAdjustment;
-                state = State.JUMP;
+                //state = State.JUMP;
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
