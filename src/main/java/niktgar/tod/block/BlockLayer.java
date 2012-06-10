@@ -22,24 +22,24 @@ public class BlockLayer extends ArrayList<Block> {
         for (final Block block : this) {
             final BoundingBox blockBox = block.bound();
             final BoundingBox entityBox = entity.bound();
-            if (Intersection.checkForCollision(blockBox, entityBox)) {
+            if (blockBox.isColliding(entityBox)) {
                 final BoundingBoxQuad quad = new BoundingBoxQuad(entityBox);
 
-                if (Intersection.checkForCollision(blockBox, quad.top())) {
+                if (blockBox.isColliding(quad.top())) {
                     System.err.println("TOP");
                     entity.collidedTop(block);
-                } else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
+                } else if (blockBox.isColliding(quad.bottom())) {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
-                } else if (Intersection.checkForCollision(blockBox, quad.left())) {
+                } else if (blockBox.isColliding(quad.left())) {
                     System.err.println("LEFT");
                     entity.collidedLeft(block);
-                } else if (Intersection.checkForCollision(blockBox, quad.right())) {
+                } else if (blockBox.isColliding(quad.right())) {
                     System.err.println("RIGHT");
                     entity.collidedRight(block);
                 }
             }
-            if (Intersection.checkForGround(new Vector((entity.bound().ulX() + entity.bound().lrX()) / 2, entity.bound().lrY() + 1), blockBox)) {
+            if (blockBox.isInside(new Vector((entity.bound().ulX() + entity.bound().lrX()) / 2, entity.bound().lrY() + 1))) {
                 System.err.println("ON GROUND");
                 block.updateMovementState(entity);
                 floating = false;

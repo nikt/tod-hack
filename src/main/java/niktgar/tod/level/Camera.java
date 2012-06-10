@@ -8,30 +8,44 @@ import niktgar.tod.entity.Entity;
 @Data
 public class Camera {
 
-    private int x;
-    private int min;
-    private int max;
+    public static final int DEFAULT_LEFT_SOFT_BOUNDARY = 300;
+    public static final int DEFAULT_RIGHT_SOFT_BOUNDARY = 500;
+
+    public static final int DEFAULT_LEFT_BOUNDARY = 0;
+    public static final int DEFAULT_RIGHT_BOUNDARY = 800;
 
     private Entity anchor;
+    private int x;
+    private int leftSoftBoundary;
+    private int rightSoftBoundary;
+    private int leftBoundary;
+    private int rightBoundary;
+
+    private boolean isFrozen;
 
     public Camera(Entity anchor) {
         this.anchor = anchor;
         x = 0;
-        min = 300;
-        max = 500;
+        leftSoftBoundary = DEFAULT_LEFT_SOFT_BOUNDARY;
+        rightSoftBoundary = DEFAULT_RIGHT_SOFT_BOUNDARY;
+        leftBoundary = DEFAULT_LEFT_BOUNDARY;
+        rightBoundary = DEFAULT_RIGHT_BOUNDARY;
+        isFrozen = false;
     }
 
     public void pull() {
-        int offset = anchor.position().snappedX() - x;
-        if (offset < min) {
-            x -= min - offset;
-            if (x < 0) {
-                x = 0;
-            }
-        } else if (offset > max) {
-            x += offset - max;
-            if (x > 800) {
-                x = 800;
+        if (!isFrozen) {
+            final int offset = anchor.position().snappedX() - x;
+            if (offset < leftSoftBoundary) {
+                x -= leftSoftBoundary - offset;
+                if (x < leftBoundary) {
+                    x = leftBoundary;
+                }
+            } else if (offset > rightSoftBoundary) {
+                x += offset - rightSoftBoundary;
+                if (x > rightBoundary) {
+                    x = rightBoundary;
+                }
             }
         }
     }
