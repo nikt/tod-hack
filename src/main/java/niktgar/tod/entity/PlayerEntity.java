@@ -42,7 +42,6 @@ public class PlayerEntity extends Entity {
 
     @Override
     public void update(long delta) {
-        animation.update(delta);
         System.out.println(position);
 
         if (jumping) {
@@ -54,10 +53,12 @@ public class PlayerEntity extends Entity {
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
             // move right
             position.x += delta / 2;
+            state = State.RIGHT;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
             // move left
             position.x -= delta / 2;
+            state = State.LEFT;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             // jump
@@ -65,6 +66,7 @@ public class PlayerEntity extends Entity {
                 jumping = true;
                 velocity.y = -2;
                 position.y += velocity.y * delta * velAdjustment;
+                state = State.JUMP;
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
@@ -83,6 +85,8 @@ public class PlayerEntity extends Entity {
         } else if (position.x + animation.width() > 1600) {
             position.x = 1600 - animation.width();
         }
+        
+        animation.update(delta);
     }
 
     @Override

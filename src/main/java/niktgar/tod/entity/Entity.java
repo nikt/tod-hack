@@ -14,22 +14,28 @@ import niktgar.tod.sprite.Sprite;
 @Data
 public class Entity implements Collidable {
 
+    protected enum State { IDLE, LEFT, RIGHT, JUMP }
+    protected State state;
+    
     protected Animation animation;
     protected Vector position;
     protected Vector velocity;
 
     public Entity(Sprite sprite) {
         this.animation = new Animation(sprite);
+        this.state = State.IDLE;
         initialize();
     }
 
     public Entity(List<Sprite> sprites) {
         this.animation = new Animation(sprites);
+        this.state = State.IDLE;
         initialize();
     }
 
     public Entity(Animation animation) {
         this.animation = animation;
+        this.state = State.IDLE;
         initialize();
     }
 
