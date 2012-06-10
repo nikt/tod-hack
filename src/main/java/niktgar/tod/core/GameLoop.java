@@ -23,6 +23,7 @@ import niktgar.tod.block.BlockMap;
 import niktgar.tod.block.BlockMapBuilder;
 import niktgar.tod.block.MapLoader;
 import niktgar.tod.entity.PlayerEntity;
+import niktgar.tod.sprite.AnimationLoader;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
 import niktgar.tod.sprite.TextureLoader;
@@ -40,8 +41,7 @@ public class GameLoop {
 
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
-
-    private Sprite playerSprite;
+    private final AnimationLoader animationLoader;
 
     private final MapLoader mapLoader;
     private final BlockMapBuilder mapBuilder;
@@ -56,6 +56,7 @@ public class GameLoop {
     public GameLoop() throws TODException {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
+        animationLoader = new AnimationLoader();
         mapLoader = new MapLoader();
         mapBuilder = new BlockMapBuilder(spriteLoader);
 
@@ -82,9 +83,9 @@ public class GameLoop {
             glViewport(0, 0, windowDimensions.width, windowDimensions.height);
 
             List<Sprite> sprites = new ArrayList<Sprite>();
-            sprites.add(spriteLoader.loadSprite("entities/angry_tree.png"));
+            sprites.add(spriteLoader.loadSprite("entities/angry_tree1.png"));
             sprites.add(spriteLoader.loadSprite("entities/angry_tree2.png"));
-            player = new PlayerEntity(sprites);
+            player = new PlayerEntity(animationLoader.loadAnimation("entities/angry_tree"));
 
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
             elapsed = 0;
