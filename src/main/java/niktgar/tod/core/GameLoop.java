@@ -14,7 +14,6 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,57 +37,49 @@ public class GameLoop {
 
     private static long timerTicksPerSecond = Sys.getTimerResolution();
 
-    private final Dimension windowDimensions = new Dimension(800, 600);
+    private final DisplayProperties displayProperties = new DisplayProperties(800, 600, false, "tod-hack");
 
     private final TextureLoader textureLoader;
     private final SpriteLoader spriteLoader;
-
     private final AnimationLoader animationLoader;
 
     private final MapLoader mapLoader;
     private final BlockMapBuilder mapBuilder;
-    private final BlockLayer currentBlockLayer;
-    private final BlockMap currentBlockMap;
-
-    private final Level level;
 
     private Sprite background;
+
+    private BlockLayer blockLayer;
+    private BlockMap blockMap;
+    private Level level;
 
     private PlayerEntity player;
 
     private long time;
     private long elapsed;
 
-    public GameLoop() throws TODException {
+    public GameLoop() {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
         animationLoader = new AnimationLoader();
         mapLoader = new MapLoader();
         mapBuilder = new BlockMapBuilder(spriteLoader);
-
-        initialize();
-
-        currentBlockLayer = new BlockLayer();
-        currentBlockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), currentBlockLayer);
-
-        level = new Level(player, currentBlockMap);
     }
 
     public void initialize() throws TODException {
         try {
-            Display.setTitle("TOD");
-            Display.setFullscreen(false);
-            Display.setDisplayMode(new DisplayMode(windowDimensions.width, windowDimensions.height));
+            Display.setTitle(displayProperties.title());
+            Display.setFullscreen(displayProperties.isFullscreen());
+            Display.setDisplayMode(new DisplayMode(displayProperties.width(), displayProperties.height()));
             Display.create();
 
             glEnable(GL_TEXTURE_2D);
             glDisable(GL_DEPTH_TEST);
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
-            glOrtho(0, windowDimensions.width, windowDimensions.height, 0, -1, 1);
+            glOrtho(0, displayProperties.width(), displayProperties.height(), 0, -1, 1);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-            glViewport(0, 0, windowDimensions.width, windowDimensions.height);
+            glViewport(0, 0, displayProperties.width(), displayProperties.height());
 
             List<Sprite> sprites = new ArrayList<Sprite>();
             sprites.add(spriteLoader.loadSprite("entities/angry_tree1.png"));
@@ -104,6 +95,12 @@ public class GameLoop {
         }
     }
 
+    public void loadTestLevel() throws TODException {
+        blockLayer = new BlockLayer();
+        blockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), blockLayer);
+        level = new Level(blockMap, blockLayer, player);
+    }
+
     public void run() {
         while (!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -113,30 +110,17 @@ public class GameLoop {
             elapsed = ((Sys.getTime() * 1000) / timerTicksPerSecond) - time;
             time = (Sys.getTime() * 1000) / timerTicksPerSecond;
 
-            // call updates
-            update(elapsed);
-            // call collisions
-            handleCollisions();
-            // call drawing
-            draw();
-            // switch display buffer in
+            Display.sync(60);
+
+            level.update(elapsed);
+
+            level.handleCollisions();
+
+            background.draw(0, 0);
+            level.draw();
+
             Display.update();
         }
         Display.destroy();
-    }
-
-    public void handleCollisions() {
-        currentBlockLayer.checkForCollisions(player);
-    }
-
-    public void update(long delta) {
-        Display.sync(60);
-        player.update(delta);
-    }
-
-    public void draw() {
-        background.draw(0, 0);
-        level.draw();
-        // player.draw();
     }
 }
