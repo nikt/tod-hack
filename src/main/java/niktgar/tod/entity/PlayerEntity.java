@@ -75,7 +75,11 @@ public class PlayerEntity extends Entity {
             // jump
             if (!jumping) {
                 jumping = true;
-                velocity.y = -2;
+                if (movementState == MovementState.SUPER_JUMP) {
+                    velocity.y = -3;
+                } else {
+                    velocity.y = -2;
+                }
                 position.y += velocity.y * delta * velAdjustment;
                 // state = State.JUMP;
             }

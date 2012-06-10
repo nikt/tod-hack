@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import niktgar.tod.core.TODException;
+import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
 
 @Accessors(fluent = true)
@@ -33,19 +34,30 @@ public class BlockMapBuilder {
             for (int c = 0; c < blockMap[0].length; c++) {
                 final int blockId = blockIdMap[r][c];
                 final String blockFileString = blockIdMapping.get(blockIdMap[r][c]);
+                final Sprite sprite = spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif");
                 Block block;
                 switch (blockId) {
                 case 0:
-                    block = new EmptyBlock(null, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    block = new EmptyBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    break;
+                case 1:
+                    block = new NoJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    break;
+                case 2:
+                    block = new FastBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    break;
+                case 3:
+                    block = new SlowBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
                     break;
                 case 4:
-                    block = new DefaultBlock(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"), r * BLOCK_SIZE, c
-                            * BLOCK_SIZE);
+                    block = new Block(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
                     currentBlockLayer.add(block);
                     break;
+                case 5:
+                    block = new SuperJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    break;
                 default:
-                    block = new Block(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"), r * BLOCK_SIZE, c
-                            * BLOCK_SIZE);
+                    block = new Block(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
                     currentBlockLayer.add(block);
                 }
                 blockMap[r][c] = block;
