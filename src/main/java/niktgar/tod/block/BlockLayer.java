@@ -23,15 +23,15 @@ public class BlockLayer extends ArrayList<Block> {
             final BoundingBox entityBox = entity.bound();
             if (blockBox.isColliding(entityBox)) {
                 final BoundingBoxQuad quad = new BoundingBoxQuad(entityBox);
-                boolean collideLeft  = blockBox.isColliding(quad.left());
+                boolean collideLeft = blockBox.isColliding(quad.left());
                 boolean collideRight = blockBox.isColliding(quad.right());
 
-                if (blockBox.isColliding(quad.top())) {
-                    System.err.println("TOP");
-                    entity.collidedTop(block);
-                } else if (blockBox.isColliding(quad.bottom())) {
+                if (blockBox.isColliding(quad.bottom())) {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
+                } else if (blockBox.isColliding(quad.top())) {
+                    System.err.println("TOP");
+                    entity.collidedTop(block);
                 } else if (blockBox.isColliding(quad.left())) {
                     System.err.println("LEFT");
                     if (blockBox.isInside(new Vector(entity.bound().ulX() + 5, entity.bound().ulY()))) {

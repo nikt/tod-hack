@@ -16,7 +16,7 @@ public class Entity implements Collidable {
 
     public AnimationState animationState;
     public MovementState movementState;
-    
+
     protected Animation animation;
     protected Vector position;
     protected Vector velocity;
@@ -76,6 +76,7 @@ public class Entity implements Collidable {
 
     public void collidedBottom(Collidable collidable) {
         position.y = collidable.bound().ulY() - animation.height();
+        velocity.y(0);
     }
 
     public void collidedLeft(Collidable collidable) {

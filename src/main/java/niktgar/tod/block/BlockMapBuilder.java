@@ -4,6 +4,10 @@ import java.util.Hashtable;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import niktgar.tod.block.special.FastBlock;
+import niktgar.tod.block.special.NoJumpBlock;
+import niktgar.tod.block.special.SlowBlock;
+import niktgar.tod.block.special.SuperJumpBlock;
 import niktgar.tod.core.TODException;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
