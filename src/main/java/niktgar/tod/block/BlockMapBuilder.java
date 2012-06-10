@@ -42,12 +42,15 @@ public class BlockMapBuilder {
                     break;
                 case 1:
                     block = new NoJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    currentBlockLayer.add(block);
                     break;
                 case 2:
                     block = new FastBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    currentBlockLayer.add(block);
                     break;
                 case 3:
                     block = new SlowBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    currentBlockLayer.add(block);
                     break;
                 case 4:
                     block = new Block(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
@@ -55,6 +58,7 @@ public class BlockMapBuilder {
                     break;
                 case 5:
                     block = new SuperJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    currentBlockLayer.add(block);
                     break;
                 default:
                     block = new Block(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);

@@ -35,6 +35,11 @@ public class Level {
 
     public void update(long delta) {
         player.update(delta);
+        if (player.position().y > 20000) {
+            player.position().y = 200;
+            player.position().x = 150;
+            player.velocity().y = 0;
+        }
     }
 
     public void draw() {
