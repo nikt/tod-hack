@@ -131,6 +131,11 @@ public class PlayerEntity extends Entity {
         super.collidedBottom(collidable);
         jumping = false;
     }
+    
+    @Override
+    public void collidedTop(Collidable collidable) {
+        if (jumping) super.collidedTop(collidable);
+    }
 
     @Override
     public void alertFloating() {
