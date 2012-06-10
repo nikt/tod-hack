@@ -1,2 +1,7 @@
+DARK SOULS MEETS PLATFORMER
+
+-introduction to new block types must result in traps and deaths
+-at least one level should scroll left with a trap to the right
+
 blocks
 -walking on a block cancels gravity until jump

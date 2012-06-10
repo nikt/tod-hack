@@ -22,4 +22,14 @@ public class SpriteLoader {
             throw new TODException(String.format("Failed to load texture: %s", file));
         }
     }
+
+    public Sprite loadMaskedSprite(final String file, final String maskFile) throws TODException {
+        try {
+            final Texture texture = textureLoader.getTexture(file);
+            final Texture mask = textureLoader.getTexture(maskFile);
+            return new MaskedSprite(texture, mask, texture.getImageWidth(), texture.getImageHeight());
+        } catch (IOException ioe) {
+            throw new TODException(String.format("Failed to load texture: %s", file));
+        }
+    }
 }
