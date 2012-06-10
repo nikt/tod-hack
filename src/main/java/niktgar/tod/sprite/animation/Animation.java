@@ -1,7 +1,9 @@
-package niktgar.tod.sprite;
+package niktgar.tod.sprite.animation;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import niktgar.tod.sprite.Sprite;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

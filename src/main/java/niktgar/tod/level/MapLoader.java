@@ -1,4 +1,4 @@
-package niktgar.tod.block;
+package niktgar.tod.level;
 
 public class MapLoader {
 

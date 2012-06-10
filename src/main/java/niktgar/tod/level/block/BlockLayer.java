@@ -1,7 +1,8 @@
-package niktgar.tod.block;
+package niktgar.tod.level.block;
 
 import java.util.ArrayList;
 
+import niktgar.tod.block.Block;
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.BoundingBoxQuad;
 import niktgar.tod.entity.Entity;

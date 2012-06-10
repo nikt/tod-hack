@@ -2,9 +2,9 @@ package niktgar.tod.level;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import niktgar.tod.block.BlockLayer;
-import niktgar.tod.block.BlockMap;
 import niktgar.tod.entity.PlayerEntity;
+import niktgar.tod.level.block.BlockLayer;
+import niktgar.tod.level.block.BlockMap;
 
 @Accessors(fluent = true)
 @Data

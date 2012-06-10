@@ -1,9 +1,11 @@
-package niktgar.tod.block;
+package niktgar.tod.level.block;
 
 import java.util.Hashtable;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import niktgar.tod.block.Block;
+import niktgar.tod.block.EmptyBlock;
 import niktgar.tod.block.special.FastBlock;
 import niktgar.tod.block.special.NoJumpBlock;
 import niktgar.tod.block.special.SlowBlock;

@@ -1,5 +1,6 @@
-package niktgar.tod.block;
+package niktgar.tod.level.block;
 
+import niktgar.tod.block.Block;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

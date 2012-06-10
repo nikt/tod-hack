@@ -1,10 +1,13 @@
-package niktgar.tod.sprite;
+package niktgar.tod.sprite.animation;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import niktgar.tod.core.TODException;
+import niktgar.tod.sprite.Sprite;
+import niktgar.tod.sprite.SpriteLoader;
+import niktgar.tod.sprite.TextureLoader;
 
 public class AnimationLoader {
 

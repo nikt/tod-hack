@@ -2,7 +2,7 @@ package niktgar.tod.entity;
 
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.geometry.Vector;
-import niktgar.tod.sprite.Animation;
+import niktgar.tod.sprite.animation.Animation;
 
 import org.lwjgl.input.Keyboard;
 
