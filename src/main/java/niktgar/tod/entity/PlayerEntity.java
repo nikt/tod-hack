@@ -42,25 +42,36 @@ public class PlayerEntity extends Entity {
     public void update(long delta) {
         System.out.println(position);
         
-        state = State.IDLE;
+        animationState = AnimationState.IDLE;
 
         if (jumping) {
             velocity.y += acceleration * delta * accAdjustment;
             position.y += velocity.y * delta * velAdjustment;
         }
+        
+        switch (movementState) {
+        case FAST :
+            velocity.x = (float) 2;
+            break;
+        case SLOW :
+            velocity.x = (float) 0.5;
+            break;
+        default :
+            velocity.x = (float) 1;
+        }
 
         // keyboard input
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
             // move right
-            position.x += delta / 2;
-            state = State.RIGHT;
+            position.x += velocity.x * delta / 2;
+            animationState = AnimationState.RIGHT;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
             // move left
-            position.x -= delta / 2;
-            state = State.LEFT;
+            position.x -= velocity.x * delta / 2;
+            animationState = AnimationState.LEFT;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+        if ((Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) && movementState != MovementState.NO_JUMP) {
             // jump
             if (!jumping) {
                 jumping = true;
@@ -87,7 +98,7 @@ public class PlayerEntity extends Entity {
         }
         
         // update proper animation
-        switch (state) {
+        switch (animationState) {
         case IDLE :
             animation.update(delta);
             break;
@@ -126,7 +137,7 @@ public class PlayerEntity extends Entity {
     
     @Override
     public void draw(int x, int y) {
-        switch (state) {
+        switch (animationState) {
         case IDLE :
             animation.draw(position.snappedX() + x, position.snappedY() + y);
             break;

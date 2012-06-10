@@ -32,12 +32,22 @@ public class BlockMapBuilder {
             for (int c = 0; c < blockMap[0].length; c++) {
                 final int blockId = blockIdMap[r][c];
                 final String blockFileString = blockIdMapping.get(blockIdMap[r][c]);
-                Block block = new Block(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"), r * BLOCK_SIZE, c
-                        * BLOCK_SIZE);
-                if (blockId != 0) {
-                    currentBlockLayer.add(block);
-                } else {
+                Block block;
+                switch (blockId) {
+                case 0 :
                     block = new EmptyBlock(null, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    break;
+                case 4 :
+                    block = new DefaultBlock(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"),
+                            r * BLOCK_SIZE, 
+                            c * BLOCK_SIZE);
+                    currentBlockLayer.add(block);
+                    break;
+                default :
+                    block = new Block(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"),
+                                      r * BLOCK_SIZE, 
+                                      c * BLOCK_SIZE);
+                    currentBlockLayer.add(block);
                 }
                 blockMap[r][c] = block;
             }

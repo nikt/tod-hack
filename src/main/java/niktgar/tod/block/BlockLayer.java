@@ -6,6 +6,7 @@ import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.BoundingBoxQuad;
 import niktgar.tod.collision.Intersection;
 import niktgar.tod.entity.Entity;
+import niktgar.tod.geometry.Vector;
 
 public class BlockLayer extends ArrayList<Block> {
 
@@ -30,7 +31,6 @@ public class BlockLayer extends ArrayList<Block> {
                 } else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
-                    floating = false;
                 } else if (Intersection.checkForCollision(blockBox, quad.left())) {
                     System.err.println("LEFT");
                     entity.collidedLeft(block);
@@ -38,6 +38,11 @@ public class BlockLayer extends ArrayList<Block> {
                     System.err.println("RIGHT");
                     entity.collidedRight(block);
                 }
+            }
+            if (Intersection.checkForGround(new Vector((entity.bound().ulX() + entity.bound().lrX()) / 2, entity.bound().lrY() + 1), blockBox)) {
+                System.err.println("ON GROUND");
+                block.updateMovementState(entity);
+                floating = false;
             }
         }
         if (floating) {
