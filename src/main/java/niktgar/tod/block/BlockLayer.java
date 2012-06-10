@@ -17,11 +17,13 @@ public class BlockLayer extends ArrayList<Block> {
 
     public void checkForCollisions(final Entity entity) {
         System.out.println("CHECK");
+        boolean floating = true;
         for (final Block block : this) {
             final BoundingBox blockBox = block.bound();
             final BoundingBox entityBox = entity.bound();
             if (Intersection.checkForCollision(blockBox, entityBox)) {
                 final BoundingBoxQuad quad = new BoundingBoxQuad(entityBox);
+                
                 if (Intersection.checkForCollision(blockBox, quad.top())) {
                     System.err.println("TOP");
                     entity.collidedTop(block);
@@ -29,6 +31,7 @@ public class BlockLayer extends ArrayList<Block> {
                 else if (Intersection.checkForCollision(blockBox, quad.bottom())) {
                     System.err.println("BOTTOM");
                     entity.collidedBottom(block);
+                    floating = false;
                 }
                 else if (Intersection.checkForCollision(blockBox, quad.left())) {
                     System.err.println("LEFT");
@@ -39,6 +42,10 @@ public class BlockLayer extends ArrayList<Block> {
                     entity.collidedRight(block);
                 }
             }
+        }
+        if (floating) {
+            System.err.println("FLOATING");
+            entity.alertFloating();
         }
     }
 }
