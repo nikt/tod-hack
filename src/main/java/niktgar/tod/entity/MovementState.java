@@ -5,5 +5,6 @@ public enum MovementState {
     DEFAULT, 
     FAST, 
     SLOW, 
-    NO_JUMP
+    NO_JUMP,
+    SUPER_JUMP
 }

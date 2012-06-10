@@ -24,6 +24,8 @@ public class BlockLayer extends ArrayList<Block> {
             final BoundingBox entityBox = entity.bound();
             if (blockBox.isColliding(entityBox)) {
                 final BoundingBoxQuad quad = new BoundingBoxQuad(entityBox);
+                boolean collideLeft  = blockBox.isColliding(quad.left());
+                boolean collideRight = blockBox.isColliding(quad.right());
 
                 if (blockBox.isColliding(quad.top())) {
                     System.err.println("TOP");
@@ -33,10 +35,18 @@ public class BlockLayer extends ArrayList<Block> {
                     entity.collidedBottom(block);
                 } else if (blockBox.isColliding(quad.left())) {
                     System.err.println("LEFT");
-                    entity.collidedLeft(block);
+                    if (blockBox.isInside(new Vector(entity.bound().ulX() + 5, entity.bound().ulY()))) {
+                        entity.collidedTop(block);
+                    } else {
+                        entity.collidedLeft(block);
+                    }
                 } else if (blockBox.isColliding(quad.right())) {
                     System.err.println("RIGHT");
-                    entity.collidedRight(block);
+                    if (blockBox.isInside(new Vector(entity.bound().lrX() - 5, entity.bound().ulY()))) {
+                        entity.collidedTop(block);
+                    } else {
+                        entity.collidedRight(block);
+                    }
                 }
             }
             if (blockBox.isInside(new Vector((entity.bound().ulX() + entity.bound().lrX()) / 2, entity.bound().lrY() + 1))) {

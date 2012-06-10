@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.entity.Entity;
+import niktgar.tod.entity.MovementState;
 import niktgar.tod.sprite.Sprite;
 
 @Accessors(fluent = true)
@@ -37,5 +38,6 @@ public class Block implements Collidable {
     
     public void updateMovementState(Entity entity) {
         // change movementState of entity
+        entity.movementState = MovementState.SLOW;
     }
 }

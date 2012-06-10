@@ -38,9 +38,9 @@ public class BlockMapBuilder {
                     block = new EmptyBlock(null, r * BLOCK_SIZE, c * BLOCK_SIZE);
                     break;
                 case 4 :
-                    block = new DefaultBlock(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"),
-                            r * BLOCK_SIZE, 
-                            c * BLOCK_SIZE);
+                    block = new Block(spriteLoader.loadMaskedSprite(String.format("blocks/%s", blockFileString), "blocks/_mask.gif"),
+                                      r * BLOCK_SIZE, 
+                                      c * BLOCK_SIZE);
                     currentBlockLayer.add(block);
                     break;
                 default :
