@@ -6,11 +6,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import niktgar.tod.block.Block;
 import niktgar.tod.block.DefaultBlock;
-import niktgar.tod.block.EmptyBlock;
-import niktgar.tod.block.StaticBlock;
-import niktgar.tod.block.special.FastBlock;
-import niktgar.tod.block.special.NoJumpBlock;
-import niktgar.tod.block.special.SuperJumpBlock;
 import niktgar.tod.core.TODException;
 import niktgar.tod.sprite.Sprite;
 import niktgar.tod.sprite.SpriteLoader;
@@ -19,28 +14,33 @@ import niktgar.tod.sprite.SpriteLoader;
 @Data
 public class BlockMapBuilder {
 
-    private static final Class[] BLOCK_CONSTRUCTOR_PARAM_CLASSES = { Sprite.class, int.class, int.class };
+    private static final Class<?>[] BLOCK_CONSTRUCTOR_PARAM_CLASSES = { Sprite.class, int.class, int.class };
+    private static final String BLOCK_CLASS = "niktgar.tod.block.StaticBlock";
+    private static final String EMPTY_BLOCK_CLASS = "niktgar.tod.block.EmptyBlock";
     private static final String FAST_BLOCK_CLASS = "niktgar.tod.block.special.FastBlock";
     private static final String NO_JUMP_BLOCK_CLASS = "niktgar.tod.block.special.NoJumpBlock";
     private static final String SLOW_BLOCK_CLASS = "niktgar.tod.block.special.SlowBlock";
     private static final String SUPER_JUMP_BLOCK_CLASS = "niktgar.tod.block.special.SuperJumpBlock";
 
-    private static final int BLOCK_SIZE = 32;
     private static final String BLOCK_FILE_STRING_PREFIX = "blocks/%s";
     private static final String BLOCK_MASK_FILE_STRING = String.format(BLOCK_FILE_STRING_PREFIX, "_mask.gif");
 
     private final SpriteLoader spriteLoader;
-    private final Hashtable<Integer, String> blockIdMapping;
+    private final Hashtable<Integer, BlockReference> blockIdMapping;
 
     public BlockMapBuilder(final SpriteLoader spriteLoader) {
         this.spriteLoader = spriteLoader;
-        this.blockIdMapping = new Hashtable<Integer, String>();
-        blockIdMapping.put(0, "empty.png");
-        blockIdMapping.put(1, "hollow.png");
-        blockIdMapping.put(2, "black.png");
-        blockIdMapping.put(3, "red.png");
-        blockIdMapping.put(4, "green.png");
-        blockIdMapping.put(5, "blue_7.png");
+        this.blockIdMapping = new Hashtable<Integer, BlockReference>();
+        blockIdMapping.put(0, new BlockReference(0, "empty.png", EMPTY_BLOCK_CLASS));
+        blockIdMapping.put(1, new BlockReference(1, "hollow.png", NO_JUMP_BLOCK_CLASS));
+        blockIdMapping.put(2, new BlockReference(2, "black.png", FAST_BLOCK_CLASS));
+        blockIdMapping.put(3, new BlockReference(3, "red.png", SLOW_BLOCK_CLASS));
+        blockIdMapping.put(4, new BlockReference(4, "green.png", BLOCK_CLASS));
+        blockIdMapping.put(5, new BlockReference(5, "blue_7.png", SUPER_JUMP_BLOCK_CLASS));
+    }
+
+    public Sprite loadBlockSprite(final String blockSpriteFileName) throws TODException {
+        return spriteLoader.loadMaskedSprite(String.format(BLOCK_FILE_STRING_PREFIX, blockSpriteFileName), BLOCK_MASK_FILE_STRING);
     }
 
     public BlockMap buildBlockMap(final int[][] blockIdMap, final BlockLayer currentBlockLayer) throws TODException {
@@ -48,48 +48,19 @@ public class BlockMapBuilder {
         for (int r = 0; r < blockMap.length; r++) {
             for (int c = 0; c < blockMap[0].length; c++) {
                 final int blockId = blockIdMap[r][c];
-                final String blockFileString = blockIdMapping.get(blockIdMap[r][c]);
-                final Sprite sprite = spriteLoader.loadMaskedSprite(String.format(BLOCK_FILE_STRING_PREFIX, blockFileString), BLOCK_MASK_FILE_STRING);
-                DefaultBlock block;
-                switch (blockId) {
-                case 0:
-                    block = new EmptyBlock(r * BLOCK_SIZE, c * BLOCK_SIZE);
-                    break;
-                case 1:
-                    block = new NoJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
-                    currentBlockLayer.add(block);
-                    break;
-                case 2:
-                    block = new FastBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
-                    currentBlockLayer.add(block);
-                    break;
-                case 3:
-                    block = null;
-                    final Object[] blockConstructorParameters = { sprite, r * BLOCK_SIZE, c * BLOCK_SIZE };
-                    try {
-                        block = (DefaultBlock) Class.forName(SLOW_BLOCK_CLASS).getConstructor(BLOCK_CONSTRUCTOR_PARAM_CLASSES)
-                                .newInstance(blockConstructorParameters);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        System.exit(-1);
+                final BlockReference blockReference = blockIdMapping.get(blockId);
+                final Sprite sprite = loadBlockSprite(blockReference.spriteName());
+                final Object[] blockConstructorParameters = { sprite, r * DefaultBlock.BLOCK_WIDTH, c * DefaultBlock.BLOCK_WIDTH };
+                try {
+                    final Block block = (Block) Class.forName(blockReference.className()).getConstructor(BLOCK_CONSTRUCTOR_PARAM_CLASSES)
+                            .newInstance(blockConstructorParameters);
+                    blockMap[r][c] = block;
+                    if (blockId != 0) {
+                        currentBlockLayer.add(block);
                     }
-                    // block = new SlowBlock(sprite, r * BLOCK_SIZE, c *
-                    // BLOCK_SIZE);
-                    currentBlockLayer.add(block);
-                    break;
-                case 4:
-                    block = new StaticBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
-                    currentBlockLayer.add(block);
-                    break;
-                case 5:
-                    block = new SuperJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
-                    currentBlockLayer.add(block);
-                    break;
-                default:
-                    block = new StaticBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
-                    currentBlockLayer.add(block);
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("Failed to instantiate a block of type: %s", blockReference.className()));
                 }
-                blockMap[r][c] = block;
             }
         }
         return new BlockMap(blockMap);

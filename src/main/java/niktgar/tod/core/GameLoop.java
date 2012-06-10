@@ -49,7 +49,7 @@ public class GameLoop {
 
     private PlayerEntity player;
 
-    public GameLoop() {
+    public GameLoop() throws TODException {
         textureLoader = new TextureLoader();
         spriteLoader = new SpriteLoader(textureLoader);
         animationLoader = new AnimationLoader();

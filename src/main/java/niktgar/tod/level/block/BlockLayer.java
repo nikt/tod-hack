@@ -2,13 +2,13 @@ package niktgar.tod.level.block;
 
 import java.util.ArrayList;
 
-import niktgar.tod.block.DefaultBlock;
+import niktgar.tod.block.Block;
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.BoundingBoxQuad;
 import niktgar.tod.entity.Entity;
 import niktgar.tod.geometry.Vector;
 
-public class BlockLayer extends ArrayList<DefaultBlock> {
+public class BlockLayer extends ArrayList<Block> {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,7 @@ public class BlockLayer extends ArrayList<DefaultBlock> {
     public void checkForCollisions(final Entity entity) {
         System.out.println("CHECK");
         boolean floating = true;
-        for (final DefaultBlock block : this) {
+        for (final Block block : this) {
             final BoundingBox blockBox = block.bound();
             final BoundingBox entityBox = entity.bound();
             if (blockBox.isColliding(entityBox)) {

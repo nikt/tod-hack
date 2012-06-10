@@ -1,8 +1,10 @@
 package niktgar.tod.block;
 
+import niktgar.tod.sprite.Sprite;
+
 public class EmptyBlock extends DefaultBlock {
 
-    public EmptyBlock(int x, int y) {
+    public EmptyBlock(final Sprite sprite, final int x, final int y) {
         super(x, y);
     }
 
