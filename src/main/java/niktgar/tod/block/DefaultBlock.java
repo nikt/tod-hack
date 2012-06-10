@@ -1,36 +1,32 @@
 package niktgar.tod.block;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import niktgar.tod.collision.BoundingBox;
 import niktgar.tod.collision.Collidable;
 import niktgar.tod.entity.Entity;
 import niktgar.tod.entity.MovementState;
-import niktgar.tod.sprite.Sprite;
 
 @Accessors(fluent = true)
 @Data
-@AllArgsConstructor
-public class DefaultBlock implements Block, Collidable {
+public abstract class DefaultBlock implements Block, Collidable {
 
-    private final Sprite sprite;
-    private int x;
-    private int y;
+    public static final int BLOCK_WIDTH = 32;
+    public static final int BLOCK_HEIGHT = 32;
 
-    @Override
-    public void draw() {
-        sprite.draw(x, y);
-    }
+    protected int x;
+    protected int y;
+    protected BoundingBox bound;
 
-    @Override
-    public void draw(final int offsetX, final int offsetY) {
-        sprite.draw(x + offsetX, y + offsetY);
+    public DefaultBlock(final int x, final int y) {
+        this.x = x;
+        this.y = y;
+        this.bound = new BoundingBox(x, y, x + BLOCK_WIDTH, y + BLOCK_HEIGHT);
     }
 
     @Override
     public BoundingBox bound() {
-        return new BoundingBox(x, y, x + sprite.width(), y + sprite.height());
+        return bound;
     }
 
     @Override
@@ -39,14 +35,7 @@ public class DefaultBlock implements Block, Collidable {
     }
 
     @Override
-    public void updateMovementState(Entity entity) {
-        // change movementState of entity
+    public void collidedWith(Entity entity) {
         entity.movementState = MovementState.DEFAULT;
-    }
-
-    @Override
-    public void update(long delta) {
-        // TODO Auto-generated method stub
-
     }
 }

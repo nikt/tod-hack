@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import niktgar.tod.block.Block;
 import niktgar.tod.block.DefaultBlock;
 import niktgar.tod.block.EmptyBlock;
+import niktgar.tod.block.StaticBlock;
 import niktgar.tod.block.special.FastBlock;
 import niktgar.tod.block.special.NoJumpBlock;
 import niktgar.tod.block.special.SuperJumpBlock;
@@ -52,7 +53,7 @@ public class BlockMapBuilder {
                 DefaultBlock block;
                 switch (blockId) {
                 case 0:
-                    block = new EmptyBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    block = new EmptyBlock(r * BLOCK_SIZE, c * BLOCK_SIZE);
                     break;
                 case 1:
                     block = new NoJumpBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
@@ -77,7 +78,7 @@ public class BlockMapBuilder {
                     currentBlockLayer.add(block);
                     break;
                 case 4:
-                    block = new DefaultBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    block = new StaticBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
                     currentBlockLayer.add(block);
                     break;
                 case 5:
@@ -85,7 +86,7 @@ public class BlockMapBuilder {
                     currentBlockLayer.add(block);
                     break;
                 default:
-                    block = new DefaultBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
+                    block = new StaticBlock(sprite, r * BLOCK_SIZE, c * BLOCK_SIZE);
                     currentBlockLayer.add(block);
                 }
                 blockMap[r][c] = block;

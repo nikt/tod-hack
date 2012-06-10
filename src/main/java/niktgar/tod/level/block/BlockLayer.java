@@ -67,7 +67,7 @@ public class BlockLayer extends ArrayList<DefaultBlock> {
             }
             if (blockBox.isInside(new Vector((entity.bound().ulX() + entity.bound().lrX()) / 2, entity.bound().lrY() + 1))) {
                 System.err.println("ON GROUND");
-                block.updateMovementState(entity);
+                block.collidedWith(entity);
                 floating = false;
             }
         }
