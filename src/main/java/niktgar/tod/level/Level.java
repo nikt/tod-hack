@@ -21,14 +21,14 @@ public class Level {
         this.collisionBlocks = collisionBlocks;
         this.player = player;
         this.camera = new Camera(player);
-        camera.rightBoundary(blockMap.rows() * blockMap.BLOCK_SIZE - 800);
+        camera.rightBoundary(blockMap.rows() * BlockMap.BLOCK_SIZE - 800);
     }
 
     public void handleCollisions() {
         if (player.position().x() < 0) {
             player.position().x(0);
-        } else if (player.position().x() > blockMap.rows() * blockMap.BLOCK_SIZE - player.animation().width()) {
-            player.position().x(blockMap.rows() * blockMap.BLOCK_SIZE - player.animation().width());
+        } else if (player.position().x() > blockMap.rows() * BlockMap.BLOCK_SIZE - player.animation().width()) {
+            player.position().x(blockMap.rows() * BlockMap.BLOCK_SIZE - player.animation().width());
         }
         collisionBlocks.checkForCollisions(player);
     }
