@@ -1,6 +1,7 @@
 package niktgar.tod.level.block;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -16,7 +17,7 @@ public class BlockMapBuilder {
 
     private static final Class<?>[] BLOCK_CONSTRUCTOR_PARAM_CLASSES = { Sprite.class, int.class, int.class };
     private static final String BLOCK_CLASS = "niktgar.tod.block.StaticBlock";
-    private static final String EMPTY_BLOCK_CLASS = "niktgar.tod.block.EmptyBlock";
+    public static final String EMPTY_BLOCK_CLASS = "niktgar.tod.block.EmptyBlock";
     private static final String FAST_BLOCK_CLASS = "niktgar.tod.block.special.FastBlock";
     private static final String NO_JUMP_BLOCK_CLASS = "niktgar.tod.block.special.NoJumpBlock";
     private static final String SLOW_BLOCK_CLASS = "niktgar.tod.block.special.SlowBlock";
@@ -26,11 +27,13 @@ public class BlockMapBuilder {
     private static final String BLOCK_MASK_FILE_STRING = String.format(BLOCK_FILE_STRING_PREFIX, "_mask.gif");
 
     private final SpriteLoader spriteLoader;
-    private final Hashtable<Integer, BlockReference> blockIdMapping;
+    private final BlockMapFileLoader blockMapFileLoader;
+    private final Map<Integer, BlockReference> blockIdMapping;
 
     public BlockMapBuilder(final SpriteLoader spriteLoader) {
         this.spriteLoader = spriteLoader;
-        this.blockIdMapping = new Hashtable<Integer, BlockReference>();
+        this.blockMapFileLoader = new BlockMapFileLoader();
+        this.blockIdMapping = new HashMap<Integer, BlockReference>();
         blockIdMapping.put(0, new BlockReference(0, "empty.png", EMPTY_BLOCK_CLASS));
         blockIdMapping.put(1, new BlockReference(1, "hollow.png", NO_JUMP_BLOCK_CLASS));
         blockIdMapping.put(2, new BlockReference(2, "gray.png", FAST_BLOCK_CLASS));
@@ -43,7 +46,11 @@ public class BlockMapBuilder {
         return spriteLoader.loadMaskedSprite(String.format(BLOCK_FILE_STRING_PREFIX, blockSpriteFileName), BLOCK_MASK_FILE_STRING);
     }
 
-    public BlockMap buildBlockMap(final int[][] blockIdMap, final BlockLayer currentBlockLayer) throws TODException {
+    public BlockMap buildBlockMap(final BlockLayer currentBlockLayer) throws TODException {
+        final BlockMapFileLoaderPair pair = blockMapFileLoader.loadBlockMapFile("test");
+        final Map<Integer, BlockReference> blockIdMapping = pair.blockIdMapping();
+        final int[][] blockIdMap = pair.blockIdMap();
+
         final Block[][] blockMap = new Block[blockIdMap.length][blockIdMap[0].length];
         for (int r = 0; r < blockMap.length; r++) {
             for (int c = 0; c < blockMap[0].length; c++) {

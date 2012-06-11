@@ -104,7 +104,7 @@ public class GameLoop {
 
     public void loadTestLevel() throws TODException {
         blockLayer = new BlockLayer();
-        blockMap = mapBuilder.buildBlockMap(mapLoader.createTestMap(), blockLayer);
+        blockMap = mapBuilder.buildBlockMap(blockLayer);
         level = new Level(blockMap, blockLayer, player);
     }
 }
